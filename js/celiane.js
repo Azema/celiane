@@ -85,7 +85,6 @@ $(async function() {
   /*
    *  Supports
    */
-
   supportUni.on('change', function(ev) {
     const qty = parseInt($(this).val(), 10);
     supports[1] = calculSupportsUni();
