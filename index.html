@@ -56,11 +56,14 @@
         <div class="postes">
           <h3>Vos éléments</h3>
           <div class="row poste new">
-            <div class="col">
+            <div class="col element">
               <!-- Liste déroulante des postes disponibles -->
               <select class="form-select selectPoste" aria-label="Sélection de poste">
-                <option selected>Open this select menu</option>
+                <option value="" selected>Select element</option>
               </select>
+              <div class="invalid-feedback">
+                Vous devez choisir un élément dans la liste
+              </div>
             </div>
             <div class="col">
               <!-- Champ indiquant la quantité désirée -->
@@ -71,10 +74,13 @@
             </div>
             <div class="col">
               <!-- Champ indiquant la couleur désirée -->
-              <div class="mb-3">
+              <div class="mb-3 color">
                 <select class="form-select selectColor" aria-label="Sélection de couleur">
-                  <option selected>Select Color</option>
-              </select>
+                  <option value="" selected>Select Color</option>
+                </select>
+                <div class="invalid-feedback">
+                  Vous devez choisir une couleur dans la liste
+                </div>
               </div>
             </div>
             <div class="col">
@@ -148,11 +154,14 @@
 
   <script type="text/template" data-template="rowPoste">
     <div class="row poste new">
-      <div class="col">
+      <div class="col element">
         <!-- Liste déroulante des postes disponibles -->
         <select class="form-select selectPoste" aria-label="Sélection de poste">
-          <option selected>Select Poste</option>
+          <option value="" selected>Select element</option>
         </select>
+        <div class="invalid-feedback">
+          Vous devez choisir un élément dans la liste
+        </div>
       </div>
       <div class="col">
         <!-- Champ indiquant la quantité désirée -->
@@ -163,10 +172,13 @@
       </div>
       <div class="col">
         <!-- Champ indiquant la couleur désirée -->
-        <div class="mb-3">
+        <div class="mb-3 color">
           <select class="form-select selectColor" aria-label="Sélection de couleur">
-            <option selected>Select Color</option>
-        </select>
+            <option value="" selected>Select Color</option>
+          </select>
+          <div class="invalid-feedback">
+            Vous devez choisir une couleur dans la liste
+          </div>
         </div>
       </div>
       <div class="col">

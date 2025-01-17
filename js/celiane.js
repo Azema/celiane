@@ -51,12 +51,13 @@ $(async function() {
       console.log('select change', {defaultColor, val, index, compo: compositions[index], color, parent, compositions});
       const colors = Object.keys(compositions[index].elements.enjoliveur.couleurs);
       console.log('Couleurs', colors);
-      color.append('<option selected>Select Color</option>');
+      color.append('<option value="" selected>Select Couleur</option>');
       colors.forEach((e) => {
         let selected = '';
         if (defaultColor && defaultColor == e) { selected = 'selected'; }
         color.append(`<option value="${e}"${selected}>${e}</option>`);
       });
+      $('.element .invalid-feedback', parent).hide();
     });
     qty.on('change', function(ev) {
       let total = 0;
@@ -79,6 +80,9 @@ $(async function() {
       // console.log('Parent', parent);
       parent.remove();
     });
+    $('.selectColor', parent).on('change', () => {
+      $('.color .invalid-feedback', parent).hide();
+    })
     select.focus();
   }
 
@@ -86,7 +90,7 @@ $(async function() {
    *  Supports
    */
   const showInvalidSupport = () => {
-    $( ".invalid-feedback" ).fadeIn(400).delay( 2000 ).slideUp( 300 );
+    $( ".supports .invalid-feedback" ).fadeIn(400).delay( 2000 ).slideUp( 300 );
   }
   supportUni.on('change', function(ev) {
     const qty = parseInt($(this).val(), 10);
@@ -142,17 +146,30 @@ $(async function() {
   const add = (ev) => {
     // console.log('Template', template);
     $('.poste.new').removeClass('new');
+    calculSupportsTotal();
+    supports[1] = calculSupportsUni();
+    supportUni.val(supports[1]);
     $('.postes').append(template);
     initPoste();
   }
 
   const send = (ev) => {
+    $('.poste .invalid-feedback').hide();
     const lines = $('.poste');
     const len = lines.length;
     lines.each(function(i, e) {
       const poste = $('.selectPoste option:selected', this).val();
+      if (poste.length <= 0) {
+        $('.element .invalid-feedback', e).show();
+        return false;
+      }
       const qty = parseInt($('.qty', this).val(), 10);
       const color = $('.selectColor option:selected', this).val();
+      console.log('Color', $('.selectColor option:selected', this));
+      if (color.length <= 0) {
+        $('.color .invalid-feedback', e).show();
+        return false;
+      }
       const index = parseInt(poste.substring(1), 10)-1;
       const compo = compositions[index];
       const cmdKeys = Object.keys(commande);
