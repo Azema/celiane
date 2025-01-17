@@ -13,7 +13,7 @@ $(async function() {
         supportDbl = $('#support-dbl'),
         supportTpl = $('#support-tpl'),
         supportQdl = $('#support-qdl');
-  $('.result').hide();
+  $('#result').hide();
 
   compositions.forEach((e, i) => {
     optionsPostes.push(`<option value="${e.id}">${e.name}</option>`);
