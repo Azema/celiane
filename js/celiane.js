@@ -85,6 +85,9 @@ $(async function() {
   /*
    *  Supports
    */
+  const showInvalidSupport = () => {
+    $( ".invalid-feedback" ).fadeIn(400).delay( 2000 ).slideUp( 300 );
+  }
   supportUni.on('change', function(ev) {
     const qty = parseInt($(this).val(), 10);
     supports[1] = calculSupportsUni();
@@ -96,6 +99,7 @@ $(async function() {
     console.log('supportDbl', {uni: supports[1], qty});
     if (total > remaining) {
       supportDbl.val(supports[2]);
+      showInvalidSupport();
       return false;
     }
     supports[2] = qty;
@@ -109,6 +113,7 @@ $(async function() {
     console.log('supportTpl', {uni: supports[1], qty});
     if (total > supports[1]) {
       supportTpl.val(supports[3]);
+      showInvalidSupport();
       return false;
     }
     supports[3] = qty;
@@ -122,6 +127,7 @@ $(async function() {
     console.log('supportQdl', {uni: supports[1], qty});
     if (total > supports[1]) {
       supportQdl.val(supports[4]);
+      showInvalidSupport();
       return false;
     }
     supports[4] = qty;

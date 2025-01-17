@@ -36,7 +36,7 @@
         <div class="row color">
           <div class="col-md-4">
             <div class="mb-3">
-              <label for="chantier" class="form-label">Chantier</label>
+              <label for="chantier" class="form-label">Nom du Chantier</label>
               <input type="text" class="form-control" id="chantier">
             </div>
           </div>
@@ -54,6 +54,7 @@
           </div>
         </div>
         <div class="postes">
+          <h3>Vos éléments</h3>
           <div class="row poste new">
             <div class="col">
               <!-- Liste déroulante des postes disponibles -->
@@ -103,6 +104,9 @@
             <div class="mb-3">
               <label for="support-dbl" class="form-label">Supports doubles</label>
               <input type="number" class="form-control" id="support-dbl" min="0">
+              <div class="invalid-feedback">
+                Vous ne pouvez pas ajouter plus de supports multiples.
+              </div>
             </div>
           </div>
           <div class="col-md-3">
