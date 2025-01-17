@@ -1,0 +1,220 @@
+[
+  {
+    "id": "C00001",
+    "name": "Va et Vient standard",
+    "type": "commande",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0001",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0001",
+          "noir": "CN0001",
+          "titanium": "CT0001",
+          "antimicrobien": "CB0027",
+          "ip44": "CB8001"
+        },
+        "qty": 1
+      },
+      "voyant": {
+        "ref": "",
+        "qty": 0
+      }
+    }
+  }, {
+    "id": "C00002",
+    "name": "Va et Vient lumineux",
+    "type": "commande",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0001",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB1001",
+          "noir": "CN1001",
+          "titanium": "CT1001",
+          "antimicrobien": "CB1027"
+        },
+        "qty": 1
+      },
+      "voyant": {
+        "ref": "CM0220",
+        "qty": 1
+      }
+    }
+  }, {
+    "id": "C00003",
+    "name": "Va et Vient témoin",
+    "type": "commande",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0001",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0007",
+          "noir": "CN0007",
+          "titanium": "CT0007",
+          "antimicrobien": "CT1027"
+        },
+        "qty": 1
+      },
+      "voyant": {
+        "ref": "CM0221",
+        "qty": 1
+      }
+    }
+  }, {
+    "id": "C00004",
+    "name": "Double Va et Vient standard",
+    "type": "commande",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0001",
+        "qty": 2
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB2001",
+          "noir": "CN2001",
+          "titanium": "CT2001",
+          "antimicrobien": "CB2027",
+          "ip44": "CB4001"
+        },
+        "qty": 1
+      },
+      "voyant": {
+        "ref": "",
+        "qty": 0
+      }
+    }
+  }, {
+    "id": "C00005",
+    "name": "Double Va et Vient lumineux",
+    "type": "commande",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0001",
+        "qty": 2
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB3001",
+          "noir": "CN3001",
+          "titanium": "CT3001",
+          "antimicrobien": "CB3027"
+        },
+        "qty": 1
+      },
+      "voyant": {
+        "ref": "CM0220",
+        "qty": 2
+      }
+    }
+  }, {
+    "id": "C00006",
+    "name": "Double Va et Vient témoin",
+    "type": "commande",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0001",
+        "qty": 2
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB2007",
+          "noir": "CN2007",
+          "titanium": "CT2007",
+          "antimicrobien": "CT3027",
+          "ip44": "CB4001"
+        },
+        "qty": 1
+      },
+      "voyant": {
+        "ref": "CM0221",
+        "qty": 2
+      }
+    }
+  }, {
+    "id": "C00007",
+    "name": "Prise 2P+T Surface Confort standard",
+    "type": "prise",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0111",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0111",
+          "noir": "CN0111",
+          "titanium": "CT0111",
+          "antimicrobien": "CB9027"
+        },
+        "qty": 2
+      }
+    }
+  }, {
+    "id": "C00008",
+    "name": "Prise double précâblée 2x2P+T Surface Confort",
+    "type": "prise",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0112",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0111",
+          "noir": "CN0111",
+          "titanium": "CT0111",
+          "antimicrobien": "CB9027",
+          "ip44": "CB8111"
+        },
+        "qty": 2
+      }
+    }
+  }, {
+    "id": "C00009",
+    "name": "Prise 2 USB Type-C 20W",
+    "type": "prise",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0154",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0154",
+          "noir": "CN0154",
+          "titanium": "CT0154"
+        },
+        "qty": 1
+      }
+    }
+  }, {
+    "id": "C00010",
+    "name": "Prise RJ45 blindée cat. 6 STP Grade 3 TV",
+    "type": "prise",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0346",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0346",
+          "noir": "CN0346",
+          "titanium": "CT0346",
+          "antimicrobien": "CB8027"
+        },
+        "qty": 1
+      }
+    }
+  }
+]
