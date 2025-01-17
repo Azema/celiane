@@ -111,7 +111,7 @@ $(async function() {
           total = qty * 3,
           remaining = supports.total - ((supports[4] * 4) + (supports[2] * 2));
     console.log('supportTpl', {uni: supports[1], qty});
-    if (total > supports[1]) {
+    if (total > remaining) {
       supportTpl.val(supports[3]);
       showInvalidSupport();
       return false;
@@ -125,7 +125,7 @@ $(async function() {
           total = qty * 4,
           remaining = supports.total - ((supports[2] * 2) + (supports[3] * 3));
     console.log('supportQdl', {uni: supports[1], qty});
-    if (total > supports[1]) {
+    if (total > remaining) {
       supportQdl.val(supports[4]);
       showInvalidSupport();
       return false;
