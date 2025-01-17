@@ -4,7 +4,7 @@ async function printJSON(file) {
 }
 
 $(async function() {
-  const compositions = await printJSON('/js/celiane.json');
+  const compositions = await printJSON('./js/celiane.json');
   const commande = {};
   const supports = {1: 0, 2: 0, 3: 0, 4: 0, total: 0};
   const optionsPostes = [];
