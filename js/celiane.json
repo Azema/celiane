@@ -3,6 +3,7 @@
     "id": "C00001",
     "name": "Va et Vient standard",
     "type": "commande",
+    "categorie": "Interrupteurs",
     "elements": {
       "mecanisme": {
         "ref": "CM0001",
@@ -17,12 +18,14 @@
           "ip44": "CB8001"
         },
         "qty": 1
-      }
+      },
+      "support": 1
     }
   }, {
     "id": "C00002",
     "name": "Va et Vient lumineux",
     "type": "commande",
+    "categorie": "Interrupteurs",
     "elements": {
       "mecanisme": {
         "ref": "CM0001",
@@ -40,12 +43,14 @@
       "voyant": {
         "ref": "CM0220",
         "qty": 1
-      }
+      },
+      "support": 1
     }
   }, {
     "id": "C00003",
     "name": "Va et Vient témoin",
     "type": "commande",
+    "categorie": "Interrupteurs",
     "elements": {
       "mecanisme": {
         "ref": "CM0001",
@@ -63,12 +68,14 @@
       "voyant": {
         "ref": "CM0221",
         "qty": 1
-      }
+      },
+      "support": 1
     }
   }, {
     "id": "C00004",
     "name": "Double Va et Vient standard",
     "type": "commande",
+    "categorie": "Interrupteurs",
     "elements": {
       "mecanisme": {
         "ref": "CM0001",
@@ -83,12 +90,14 @@
           "ip44": "CB4001"
         },
         "qty": 1
-      }
+      },
+      "support": 1
     }
   }, {
     "id": "C00005",
     "name": "Double Va et Vient lumineux",
     "type": "commande",
+    "categorie": "Interrupteurs",
     "elements": {
       "mecanisme": {
         "ref": "CM0001",
@@ -106,12 +115,14 @@
       "voyant": {
         "ref": "CM0220",
         "qty": 2
-      }
+      },
+      "support": 1
     }
   }, {
     "id": "C00006",
     "name": "Double Va et Vient témoin",
     "type": "commande",
+    "categorie": "Interrupteurs",
     "elements": {
       "mecanisme": {
         "ref": "CM0001",
@@ -130,12 +141,1066 @@
       "voyant": {
         "ref": "CM0221",
         "qty": 2
-      }
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00011",
+    "name": "Va et Vient + Poussoir",
+    "type": "commande",
+    "categorie": "Interrupteurs",
+    "elements": {
+      "mecanisme": {
+        "ref": ["CM0001", "CM0031"],
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB2001",
+          "noir": "CN2001",
+          "titanium": "CT2001",
+          "antimicrobien": "CB2027",
+          "ip44": "CB4001"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00012",
+    "name": "Va et Vient sans contact",
+    "type": "commande",
+    "categorie": "Interrupteurs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0003",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0003",
+          "noir": "CN0003",
+          "titanium": "CT0003",
+          "antimicrobien": "CB0003"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00013",
+    "name": "Permutateur Standard",
+    "type": "commande",
+    "categorie": "Interrupteurs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0005",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0005",
+          "noir": "CN0005",
+          "titanium": "CT0005"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00014",
+    "name": "Permutateur lumineux",
+    "type": "commande",
+    "categorie": "Interrupteurs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0005",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB1005",
+          "noir": "CN1005",
+          "titanium": "CT1005"
+        },
+        "qty": 1
+      },
+      "voyant": {
+        "ref": "CM0224",
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00015",
+    "name": "Permutateur témoin",
+    "type": "commande",
+    "categorie": "Interrupteurs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0005",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB1005",
+          "noir": "CN1005",
+          "titanium": "CT1005"
+        },
+        "qty": 1
+      },
+      "voyant": {
+        "ref": "CM0225",
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00016",
+    "name": "Inter bipolaire Standard",
+    "type": "commande",
+    "categorie": "Interrupteurs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0020",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0020",
+          "noir": "CN0020",
+          "titanium": "CT0020"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00017",
+    "name": "Inter bipolaire Lumineux",
+    "type": "commande",
+    "categorie": "Interrupteurs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0020",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB1020",
+          "noir": "CN1020",
+          "titanium": "CT1020"
+        },
+        "qty": 1
+      },
+      "voyant": {
+        "ref": "CM0224",
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00018",
+    "name": "Inter bipolaire Témoin",
+    "type": "commande",
+    "categorie": "Interrupteurs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0020",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB1020",
+          "noir": "CN1020",
+          "titanium": "CT1020"
+        },
+        "qty": 1
+      },
+      "voyant": {
+        "ref": "CM0225",
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00019",
+    "name": "Va et Vient témoin sans neutre",
+    "type": "commande",
+    "categorie": "Interrupteurs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0007",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0007",
+          "noir": "CN0007",
+          "titanium": "CT0007"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00020",
+    "name": "Va et Vient à tirage",
+    "type": "commande",
+    "categorie": "Interrupteurs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0008",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0008",
+          "noir": "CN0008",
+          "titanium": "CT0008"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00021",
+    "name": "Inter temporisé 2 fils, sans neutre",
+    "type": "commande",
+    "categorie": "Interrupteurs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0077",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0077",
+          "noir": "CN0077",
+          "titanium": "CT0077"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00022",
+    "name": "Inter horaire programmable",
+    "type": "commande",
+    "categorie": "Interrupteurs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0078",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0078",
+          "noir": "CN0078",
+          "titanium": "CT0078"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00023",
+    "name": "Va et Vient 5 commandes compactes",
+    "type": "commande",
+    "categorie": "Interrupteurs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0001",
+        "qty": 5
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0029",
+          "noir": "CN0029",
+          "titanium": "CT0029"
+        },
+        "qty": 1
+      },
+      "support": 2
+    }
+  }, {
+    "id": "C00024",
+    "name": "Inter filaire connecté sans neutre option variation 5-125W LED",
+    "type": "commande",
+    "categorie": "Interrupteurs connectés",
+    "elements": {
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0403",
+          "noir": "CN0403",
+          "titanium": "CT0403"
+        },
+        "qty": 1
+      },
+      "support": 0
+    }
+  }, {
+    "id": "C00025",
+    "name": "Inter filaire connecté avec neutre option variation 150W LED",
+    "type": "commande",
+    "categorie": "Interrupteurs connectés",
+    "elements": {
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0409",
+          "noir": "CN0409",
+          "titanium": "CT0409"
+        },
+        "qty": 1
+      },
+      "support": 0
+    }
+  }, {
+    "id": "C00026",
+    "name": "Inter filaire double connecté avec neutre 2 x 50 W LED",
+    "type": "commande",
+    "categorie": "Interrupteurs connectés",
+    "elements": {
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0416",
+          "noir": "CN0416",
+          "titanium": "CT0416"
+        },
+        "qty": 1
+      },
+      "support": 0
+    }
+  }, {
+    "id": "C00027",
+    "name": "Commande sans fils, sans pile, Self-e pour éclairage et prise",
+    "type": "commande",
+    "categorie": "Interrupteurs connectés",
+    "elements": {
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0420",
+          "noir": "CN0420",
+          "titanium": "CT0420"
+        },
+        "qty": 1
+      },
+      "support": 0
+    }
+  }, {
+    "id": "C00028",
+    "name": "Commande sans fils pour éclairage et prise",
+    "type": "commande",
+    "categorie": "Interrupteurs connectés",
+    "elements": {
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0402",
+          "noir": "CN0402",
+          "titanium": "CT0402"
+        },
+        "qty": 1
+      },
+      "support": 0
+    }
+  }, {
+    "id": "C00029",
+    "name": "Commande double sans fils, sans pile, Self-e pour éclairage et prise",
+    "type": "commande",
+    "categorie": "Interrupteurs connectés",
+    "elements": {
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0421",
+          "noir": "CN0421",
+          "titanium": "CT0421"
+        },
+        "qty": 1
+      },
+      "support": 0
+    }
+  }, {
+    "id": "C00030",
+    "name": "Commande double sans fils pour éclairage et prise",
+    "type": "commande",
+    "categorie": "Interrupteurs connectés",
+    "elements": {
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0415",
+          "noir": "CN0415",
+          "titanium": "CT0415"
+        },
+        "qty": 1
+      },
+      "support": 0
+    }
+  }, {
+    "id": "C00031",
+    "name": "Poussoir NO+NF Standard",
+    "type": "commande",
+    "categorie": "Poussoirs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0031",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0001",
+          "noir": "CN0001",
+          "titanium": "CT0001",
+          "antimicrobien": "CB0027",
+          "ip44": "CB8001"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00032",
+    "name": "Poussoir NO+NF Lumineux",
+    "type": "commande",
+    "categorie": "Poussoirs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0031",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB1001",
+          "noir": "CN1001",
+          "titanium": "CT1001",
+          "antimicrobien": "CB1027"
+        },
+        "qty": 1
+      },
+      "voyant": {
+        "ref": "CM0220",
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00033",
+    "name": "Poussoir NO+NF avec porte étiquette",
+    "type": "commande",
+    "categorie": "Poussoirs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0031",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB5001",
+          "noir": "CN5001",
+          "titanium": "CT5001",
+          "ip44": "CB7001"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00034",
+    "name": "Double Poussoir NO+NF Standard",
+    "type": "commande",
+    "categorie": "Poussoirs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0031",
+        "qty": 2
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB2001",
+          "noir": "CN2001",
+          "titanium": "CT2001",
+          "antimicrobien": "CB2027",
+          "ip44": "CB4001"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00035",
+    "name": "Double Poussoir NO+NF Lumineux",
+    "type": "commande",
+    "categorie": "Poussoirs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0031",
+        "qty": 2
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB3001",
+          "noir": "CN3001",
+          "titanium": "CT3001",
+          "antimicrobien": "CB3027"
+        },
+        "qty": 1
+      },
+      "voyant": {
+        "ref": "CM0220",
+        "qty": 2
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00036",
+    "name": "Poussoir sans contact pour éclairage",
+    "type": "commande",
+    "categorie": "Poussoirs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0003",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0003",
+          "noir": "CN0003",
+          "titanium": "CT0003",
+          "antimicrobien": "CB0003"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00037",
+    "name": "Poussoir NO 6A avec bornes libre de potentiel",
+    "type": "commande",
+    "categorie": "Poussoirs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0031",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0001",
+          "noir": "CN0001",
+          "titanium": "CT0001",
+          "antimicrobien": "CB0027",
+          "ip44": "CB8001"
+        },
+        "qty": 1
+      },
+      "voyant": {
+        "ref": "CM0222",
+        "qty": 1,
+        "option": true
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00038",
+    "name": "Poussoir NO+NF à tirage",
+    "type": "commande",
+    "categorie": "Poussoirs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0034",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0008",
+          "noir": "CN0008",
+          "titanium": "CT0008"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00039",
+    "name": "Télérupteur silencieux 300W LED",
+    "type": "commande",
+    "categorie": "Poussoirs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0070",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0007",
+          "noir": "CN0007",
+          "titanium": "CT0007",
+          "antimicrobien": "CT1027"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00040",
+    "name": "Poussoir NO+NF 5 commandes compactes",
+    "type": "commande",
+    "categorie": "Poussoirs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0031",
+        "qty": 5
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0029",
+          "noir": "CN0029",
+          "titanium": "CT0029"
+        },
+        "qty": 1
+      },
+      "support": 2
+    }
+  }, {
+    "id": "C00041",
+    "name": "Variateur Rotary type rotatif 200W LED",
+    "type": "commande",
+    "categorie": "Variateurs et commandes ambiances couleurs",
+    "elements": {
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0408",
+          "noir": "CN0408",
+          "titanium": "CT0408"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00042",
+    "name": "Variateur type poussoir 2 fils 125W LED",
+    "type": "commande",
+    "categorie": "Variateurs et commandes ambiances couleurs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0060",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0060",
+          "noir": "CN0060",
+          "titanium": "CT0060"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00043",
+    "name": "Variateur type poussoir 3 fils 150W LED",
+    "type": "commande",
+    "categorie": "Variateurs et commandes ambiances couleurs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0064",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0064",
+          "noir": "CN0064",
+          "titanium": "CT0064"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00044",
+    "name": "Variateur type poussoir pour ballasts 1-10V",
+    "type": "commande",
+    "categorie": "Variateurs et commandes ambiances couleurs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0061",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0061",
+          "noir": "CN0061",
+          "titanium": "CT0061"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00045",
+    "name": "Variateur Rotary filaire type rotatif 200W LED",
+    "type": "commande",
+    "categorie": "Variateurs connectés",
+    "elements": {
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB1408",
+          "noir": "CN1408",
+          "titanium": "CT1408"
+        },
+        "qty": 1
+      },
+      "support": 0
+    }
+  }, {
+    "id": "C00046",
+    "name": "Commande Rotary filaire type rotatif pour ambiance couleurs",
+    "type": "commande",
+    "categorie": "Variateurs connectés",
+    "elements": {
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB2408",
+          "noir": "CN2408",
+          "titanium": "CT2408"
+        },
+        "qty": 1
+      },
+      "support": 0
+    }
+  }, {
+    "id": "C00047",
+    "name": "Commande filaire type poussoir pour ambiance couleurs",
+    "type": "commande",
+    "categorie": "Variateurs connectés",
+    "elements": {
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB2419",
+          "noir": "CN2419",
+          "titanium": "CT2419"
+        },
+        "qty": 1
+      },
+      "support": 0
+    }
+  }, {
+    "id": "C00048",
+    "name": "Commande sans fils type poussoir pour ambiance couleurs",
+    "type": "commande",
+    "categorie": "Variateurs connectés",
+    "elements": {
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0419",
+          "noir": "CN0419",
+          "titanium": "CT0419"
+        },
+        "qty": 1
+      },
+      "support": 0
+    }
+  }, {
+    "id": "C00049",
+    "name": "Détecteur 2 fils sans Neutre 100W LED",
+    "type": "commande",
+    "categorie": "Détecteurs sans dérogation",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0050",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0050",
+          "noir": "CN0050",
+          "titanium": "CT0050"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00050",
+    "name": "Détecteur 3 fils avec Neutre 500W LED",
+    "type": "commande",
+    "categorie": "Détecteurs sans dérogation",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0051",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0050",
+          "noir": "CN0050",
+          "titanium": "CT0050"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00051",
+    "name": "Détecteur 2 fils sans Neutre 100W LED",
+    "type": "commande",
+    "categorie": "Détecteurs avec dérogation",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0050",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0051",
+          "noir": "CN0051",
+          "titanium": "CT0051"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00052",
+    "name": "Détecteur 3 fils avec Neutre 500W LED",
+    "type": "commande",
+    "categorie": "Détecteurs avec dérogation",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0051",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0051",
+          "noir": "CN0051",
+          "titanium": "CT0051"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00053",
+    "name": "Détecteur IP44 sans fils",
+    "type": "commande",
+    "categorie": "Détecteurs connecté",
+    "elements": {
+      "enjoliveur": {
+        "ref": "0 648 75",
+        "qty": 1
+      },
+      "support": 0
+    }
+  }, {
+    "id": "C00054",
+    "name": "Liseuse LED",
+    "type": "commande",
+    "categorie": "Liseuse, Spots et Balisage",
+    "elements": {
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0270",
+          "noir": "CN0270",
+          "titanium": "CT0270"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00055",
+    "name": "Spot orientable",
+    "type": "commande",
+    "categorie": "Liseuse, Spots et Balisage",
+    "elements": {
+      "enjoliveur": {
+        "ref": "CM0271",
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00056",
+    "name": "Spot pour éclairage diffus",
+    "type": "commande",
+    "categorie": "Liseuse, Spots et Balisage",
+    "elements": {
+      "enjoliveur": {
+        "ref": "CM0272",
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00057",
+    "name": "Spot pour escalier",
+    "type": "commande",
+    "categorie": "Liseuse, Spots et Balisage",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0274",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0274",
+          "noir": "CN0274",
+          "titanium": "CT0274"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00058",
+    "name": "Voyant de signalisation",
+    "type": "commande",
+    "categorie": "Liseuse, Spots et Balisage",
+    "elements": {
+      "enjoliveur": {
+        "ref": "CM0276",
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00059",
+    "name": "Voyant de balisage autonome",
+    "type": "commande",
+    "categorie": "Liseuse, Spots et Balisage",
+    "elements": {
+      "enjoliveur": {
+        "ref": "CM0281",
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00060",
+    "name": "Détecteur de balisage",
+    "type": "commande",
+    "categorie": "Liseuse, Spots et Balisage",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0278",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0278",
+          "noir": "CN0278",
+          "titanium": "CT0278"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00061",
+    "name": "Interrupteur VMC",
+    "type": "commande",
+    "categorie": "Commandes de ventilation",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0001",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB6001",
+          "noir": "CN6001",
+          "titanium": "CT6001"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00062",
+    "name": "Poussoir VMC",
+    "type": "commande",
+    "categorie": "Commandes de ventilation",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0031",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB6001",
+          "noir": "CN6001",
+          "titanium": "CT6001"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00063",
+    "name": "Interrupteur pour éclairage avec ventilation retardée",
+    "type": "commande",
+    "categorie": "Commandes de ventilation",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0014",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0077",
+          "noir": "CN0077",
+          "titanium": "CT0077"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00064",
+    "name": "Interrupteur variateur pour ventilation de plafond",
+    "type": "commande",
+    "categorie": "Commandes de ventilation",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0015",
+        "qty": 1
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0015",
+          "noir": "CN0015",
+          "titanium": "CT0015"
+        },
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
+    "id": "C00065",
+    "name": "Commande sans fils pour VMC",
+    "type": "commande",
+    "categorie": "Commandes de ventilation connecté",
+    "elements": {
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": "CB0411",
+          "noir": "CN0411",
+          "titanium": "CT0411"
+        },
+        "qty": 1
+      },
+      "options": {
+        "name": "micromodule pour VMC connecté",
+        "ref": "0 677 66",
+        "qty": 1
+      },
+      "support": 0
     }
   }, {
     "id": "C00007",
     "name": "Prise 2P+T Surface Confort standard",
     "type": "prise",
+    "categorie": "Prises de courant fort",
     "elements": {
       "mecanisme": {
         "ref": "CM0111",
@@ -149,12 +1214,14 @@
           "antimicrobien": "CB9027"
         },
         "qty": 2
-      }
+      },
+      "support": 1
     }
   }, {
     "id": "C00008",
     "name": "Prise double précâblée 2x2P+T Surface Confort",
     "type": "prise",
+    "categorie":"Prises de courant fort",
     "elements": {
       "mecanisme": {
         "ref": "CM0112",
@@ -169,12 +1236,14 @@
           "ip44": "CB8111"
         },
         "qty": 2
-      }
+      },
+      "support": 0
     }
   }, {
     "id": "C00009",
     "name": "Prise 2 USB Type-C 20W",
     "type": "prise",
+    "categorie": "Prises de courant fort",
     "elements": {
       "mecanisme": {
         "ref": "CM0154",
@@ -187,12 +1256,14 @@
           "titanium": "CT0154"
         },
         "qty": 1
-      }
+      },
+      "support": 1
     }
   }, {
     "id": "C00010",
     "name": "Prise RJ45 blindée cat. 6 STP Grade 3 TV",
     "type": "prise",
+    "categorie": "Prises informatique",
     "elements": {
       "mecanisme": {
         "ref": "CM0346",
@@ -206,7 +1277,8 @@
           "antimicrobien": "CB8027"
         },
         "qty": 1
-      }
+      },
+      "support": 1
     }
   }
 ]
