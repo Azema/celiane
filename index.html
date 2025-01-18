@@ -12,6 +12,15 @@
     #result .chantier {
       font-weight: bold;
     }
+    .poste {
+      border-bottom: 1px solid rgba(0,0,0,.125);
+    }
+    .actions {
+      padding-top: 5px;
+    }
+    .del {
+      margin-top: 23px;
+    }
   </style>
 </head>
 <body>
@@ -43,7 +52,7 @@
           <div class="col-md-4"></div>
           <div class="col-md-4">
             <div class="mb-3">
-              <label for="defaultColor">Couleur par défaut des enjoliveurs</label>
+              <label for="defaultColor" class="form-label">Couleur par défaut des enjoliveurs</label>
               <select id="defaultColor" class="form-select defaultColor" aria-label="Sélection de la couleur par défaut">
                 <option value="" selected>Couleur par défaut</option>
                 <option value="blanc">Blanc</option>
@@ -55,9 +64,10 @@
         </div>
         <div class="postes">
           <h3>Vos éléments</h3>
-          <div class="row poste new">
-            <div class="col element">
+          <div class="row poste new pb-3">
+            <div class="col-md-4 col-sm-6 element">
               <!-- Liste déroulante des postes disponibles -->
+              <label>Elément</label>
               <select class="form-select selectPoste" aria-label="Sélection de poste">
                 <option value="" selected>Select element</option>
               </select>
@@ -65,16 +75,15 @@
                 Vous devez choisir un élément dans la liste
               </div>
             </div>
-            <div class="col">
+            <div class="col-md-2 col-sm-2">
               <!-- Champ indiquant la quantité désirée -->
-              <div class="form-floating mb-3">
-                <input type="number" class="form-control qty" id="qty" value="1">
-                <label for="qty">Quantité</label>
-              </div>
+              <label for="qty">Qté</label>
+              <input type="number" class="form-control qty" id="qty" value="1">
             </div>
-            <div class="col">
+            <div class="col-md-3 col-sm-2">
               <!-- Champ indiquant la couleur désirée -->
               <div class="mb-3 color">
+                <label>Couleur</label>
                 <select class="form-select selectColor" aria-label="Sélection de couleur">
                   <option value="" selected>Select Color</option>
                 </select>
@@ -83,48 +92,60 @@
                 </div>
               </div>
             </div>
-            <div class="col">
+            <div class="col-md-2 col-sm-1">
               <!-- Colonne action pour supprimer/modifier la ligne -->
-              <button type="button" class="btn btn-danger del">Supprimer</button>
+              <button type="button" class="btn btn-danger del">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                </svg>
+              </button>
             </div>
           </div>
         </div>
-        <div class="row actions">
-          <div class="col-md-8"></div>
-          <div class="col-md-2">
+        <div class="row actions pb-3">
+          <div class="col align-self-end">
             <button type="button" class="btn btn-primary add">Ajouter</button>
           </div>
-          <div class="col-md-2">
+          <div class="col align-self-end">
             <button type="button" class="btn btn-success send">Commander</button>
           </div>
         </div>
         <div class="row supports">
-          <h3>Supports Batibox</h3>
-          <div class="col-md-3">
-            <div class="mb-3">
+          <h3>
+            Supports Batibox 
+            <button type="button" class="btn editSupports">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
+              </svg>
+            </button>
+          </h3>
+          <div class="col-md-3 col-sm-6">
+            <div class="col-auto">
               <label for="support-uni" class="form-label">Supports unitaires</label>
-              <input type="number" class="form-control" id="support-uni" min="0">
+            </div>
+            <div class="col-auto">
+              <input type="number" class="form-control" id="support-uni" min="0" disabled>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 col-sm-6">
             <div class="mb-3">
               <label for="support-dbl" class="form-label">Supports doubles</label>
-              <input type="number" class="form-control" id="support-dbl" min="0">
+              <input type="number" class="form-control" id="support-dbl" min="0" disabled>
               <div class="invalid-feedback">
                 Vous ne pouvez pas ajouter plus de supports multiples.
               </div>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 col-sm-6">
             <div class="mb-3">
               <label for="support-tpl" class="form-label">Supports triples</label>
-              <input type="number" class="form-control" id="support-tpl" min="0">
+              <input type="number" class="form-control" id="support-tpl" min="0" disabled>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 col-sm-6">
             <div class="mb-3">
               <label for="support-qdl" class="form-label">Supports quadruples</label>
-              <input type="number" class="form-control" id="support-qdl" min="0">
+              <input type="number" class="form-control" id="support-qdl" min="0" disabled>
             </div>
           </div>
         </div>
@@ -136,6 +157,7 @@
               <tr>
                 <th scope="col">Nb.</th>
                 <th scope="col">Référence</th>
+                <th scope="col">Libellé</th>
                 <th scope="col">Quantité</th>
               </tr>
             </thead>
@@ -153,9 +175,10 @@
   </footer>
 
   <script type="text/template" data-template="rowPoste">
-    <div class="row poste new">
-      <div class="col element">
+    <div class="row poste new pb-3">
+      <div class="col-md-4 col-sm-6 element">
         <!-- Liste déroulante des postes disponibles -->
+        <label>Elément</label>
         <select class="form-select selectPoste" aria-label="Sélection de poste">
           <option value="" selected>Select element</option>
         </select>
@@ -163,16 +186,15 @@
           Vous devez choisir un élément dans la liste
         </div>
       </div>
-      <div class="col">
+      <div class="col-md-2 col-sm-2">
         <!-- Champ indiquant la quantité désirée -->
-        <div class="form-floating mb-3">
-          <input type="number" class="form-control qty" id="qty" value="1">
-          <label for="qty">Quantité</label>
-        </div>
+        <label for="qty">Qté</label>
+        <input type="number" class="form-control qty" id="qty" value="1">
       </div>
-      <div class="col">
+      <div class="col-md-3 col-sm-3">
         <!-- Champ indiquant la couleur désirée -->
         <div class="mb-3 color">
+          <label>Couleur</label>
           <select class="form-select selectColor" aria-label="Sélection de couleur">
             <option value="" selected>Select Color</option>
           </select>
@@ -181,9 +203,13 @@
           </div>
         </div>
       </div>
-      <div class="col">
+      <div class="col-md-2 col-sm-2">
         <!-- Colonne action pour supprimer/modifier la ligne -->
-        <button type="button" class="btn btn-danger del">Supprimer</button>
+        <button type="button" class="btn btn-danger del">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+          </svg>
+        </button>
       </div>
     </div>
   </script>
