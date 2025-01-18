@@ -64,8 +64,8 @@
         </div>
         <div class="postes">
           <h3>Vos éléments</h3>
-          <div class="row poste new pb-3">
-            <div class="col-md-4 col-sm-6 element">
+          <div class="row poste new pb-1">
+            <div class="col-auto element">
               <!-- Liste déroulante des postes disponibles -->
               <label>Elément</label>
               <select class="form-select selectPoste" aria-label="Sélection de poste">
@@ -75,12 +75,12 @@
                 Vous devez choisir un élément dans la liste
               </div>
             </div>
-            <div class="col-md-2 col-sm-2">
+            <div class="col-md-1 col-sm-2">
               <!-- Champ indiquant la quantité désirée -->
               <label for="qty">Qté</label>
               <input type="number" class="form-control qty" id="qty" value="1">
             </div>
-            <div class="col-md-3 col-sm-2">
+            <div class="col-md-2 col-sm-2">
               <!-- Champ indiquant la couleur désirée -->
               <div class="mb-3 color">
                 <label>Couleur</label>
@@ -92,7 +92,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-2 col-sm-1">
+            <div class="col-md-1 col-sm-1">
               <!-- Colonne action pour supprimer/modifier la ligne -->
               <button type="button" class="btn btn-danger del">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
@@ -157,7 +157,6 @@
               <tr>
                 <th scope="col">Nb.</th>
                 <th scope="col">Référence</th>
-                <th scope="col">Libellé</th>
                 <th scope="col">Quantité</th>
               </tr>
             </thead>
@@ -175,8 +174,8 @@
   </footer>
 
   <script type="text/template" data-template="rowPoste">
-    <div class="row poste new pb-3">
-      <div class="col-md-4 col-sm-6 element">
+    <div class="row poste new pb-1">
+      <div class="col-auto element">
         <!-- Liste déroulante des postes disponibles -->
         <label>Elément</label>
         <select class="form-select selectPoste" aria-label="Sélection de poste">
@@ -186,12 +185,12 @@
           Vous devez choisir un élément dans la liste
         </div>
       </div>
-      <div class="col-md-2 col-sm-2">
+      <div class="col-md-1 col-sm-2">
         <!-- Champ indiquant la quantité désirée -->
         <label for="qty">Qté</label>
         <input type="number" class="form-control qty" id="qty" value="1">
       </div>
-      <div class="col-md-3 col-sm-3">
+      <div class="col-md-2 col-sm-3">
         <!-- Champ indiquant la couleur désirée -->
         <div class="mb-3 color">
           <label>Couleur</label>
@@ -203,7 +202,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-2 col-sm-2">
+      <div class="col-md-1 col-sm-2">
         <!-- Colonne action pour supprimer/modifier la ligne -->
         <button type="button" class="btn btn-danger del">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
