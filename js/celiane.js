@@ -12,12 +12,33 @@ $(async function() {
   const supportUni = $('#support-uni'),
         supportDbl = $('#support-dbl'),
         supportTpl = $('#support-tpl'),
-        supportQdl = $('#support-qdl');
+        supportQdl = $('#support-qdl'),
+        editSupports = $('.editSupports');
   $('#result').hide();
 
+  const groupes = {};
   compositions.forEach((e, i) => {
-    optionsPostes.push(`<option value="${e.id}">${e.name}</option>`);
+    if (!groupes.hasOwnProperty(e.categorie)) {
+      groupes[e.categorie] = [];
+    }
+    groupes[e.categorie].push(`<option value="${e.id}">${e.name}</option>`);
+    // optionsPostes.push();
   });
+  Object.keys(groupes).forEach((g, i) => {
+    let groupe = `<optgroup label="${g}">`;
+    groupes[g].forEach((o, i) => {
+      groupe += o;
+    });
+    groupe += '</optgroup>';
+    optionsPostes.push(groupe);
+  })
+
+  const findCompoFromId = (id) => {
+    for (let c = 0, _len = compositions.length; c < _len; c++) {
+      if (compositions[c].id == id) return compositions[c];
+    }
+    return null;
+  }
 
   const calculSupportsUni = () => {
     let total = supports.total;
@@ -39,32 +60,47 @@ $(async function() {
     const select = $('.selectPoste', parent);
     const qty = $('.qty', parent);
     const del = $('.del', parent);
+    let compo;
     optionsPostes.forEach((e) => {
       select.append(e);
     });
     select.on('change', function(ev) {
       const defaultColor = $('.defaultColor option:selected').val();
       const val = this.value;
+      compo = findCompoFromId(val);
+      console.log('Parent', parent.get(0));
+      parent.get(0).dataset.compo = val;
+      parent.get(0).dataset.support = compo.elements.support;
       const index = parseInt(val.substring(1), 10)-1;
       const color = $('.selectColor', parent);
-      color.empty();
-      console.log('select change', {defaultColor, val, index, compo: compositions[index], color, parent, compositions});
-      const colors = Object.keys(compositions[index].elements.enjoliveur.couleurs);
-      console.log('Couleurs', colors);
-      color.append('<option value="" selected>Select Couleur</option>');
-      colors.forEach((e) => {
-        let selected = '';
-        if (defaultColor && defaultColor == e) { selected = 'selected'; }
-        color.append(`<option value="${e}"${selected}>${e}</option>`);
-      });
+      if (compo.elements.enjoliveur.hasOwnProperty('couleurs')) {
+        color.empty();
+        console.log('select change', {defaultColor, val, index, compo, color, parent, compositions});
+        const colors = Object.keys(compo.elements.enjoliveur.couleurs);
+        console.log('Couleurs', colors);
+        color.append('<option value="" selected>Select Couleur</option>');
+        colors.forEach((e) => {
+          let selected = '';
+          if (defaultColor && defaultColor == e) { selected = 'selected'; }
+          color.append(`<option value="${e}"${selected}>${e}</option>`);
+        });
+      } else {
+        color.empty();
+        color.hide();
+      }
       $('.element .invalid-feedback', parent).hide();
     });
     qty.on('change', function(ev) {
-      let total = 0;
+      console.log('Qty change');
+      if (compo && compo.elements.support == 0) return;
+      supports[1] = 0; supports[2] = 0; supports[3] = 0; supports[4] = 0;
       $('.qty').each((i, e) => {
-        total += parseInt($(e).val(), 10);
+        const par = $(e).parents('.poste').first();
+        const support = parseInt(par.get(0).dataset.support, 10);
+        console.log('support', support);
+        if (support > 0) supports[support] += parseInt($(e).val(), 10);
       });
-      if (total === supports.total+1) {
+      /* if (total === supports.total+1) {
         supports.total++;
         supports[1]++;
       } else if (total === supports.total-1) {
@@ -73,8 +109,11 @@ $(async function() {
       } else {
         supports.total = total;
         supports[1] = calculSupportsUni();
-      }
+      } */
       supportUni.val(supports[1]);
+      supportDbl.val(supports[2]);
+      supportTpl.val(supports[3]);
+      supportQdl.val(supports[4]);
     });
     del.on('click', (ev) => {
       // console.log('Parent', parent);
@@ -92,7 +131,7 @@ $(async function() {
   const showInvalidSupport = () => {
     $( ".supports .invalid-feedback" ).fadeIn(400).delay( 2000 ).slideUp( 300 );
   }
-  supportUni.on('change', function(ev) {
+  /* supportUni.on('change', function(ev) {
     const qty = parseInt($(this).val(), 10);
     supports[1] = calculSupportsUni();
   });
@@ -137,18 +176,31 @@ $(async function() {
     supports[4] = qty;
     supports[1] = calculSupportsUni();
     supportUni.val(supports[1]);
-  });
+  }); */
   supportUni.val(supports[1]);
   supportDbl.val(supports[2]);
   supportTpl.val(supports[3]);
   supportQdl.val(supports[4]);
+  editSupports.on('click', (e) => {
+    if (supportUni.prop('disabled')) {
+      supportUni.removeAttr('disabled');
+      supportDbl.removeAttr('disabled');
+      supportTpl.removeAttr('disabled');
+      supportQdl.removeAttr('disabled');
+    } else {
+      supportUni.prop('disabled', true);
+      supportDbl.prop('disabled', true);
+      supportTpl.prop('disabled', true);
+      supportQdl.prop('disabled', true);
+    }
+  })
 
   const add = (ev) => {
     // console.log('Template', template);
     $('.poste.new').removeClass('new');
-    calculSupportsTotal();
+    /* calculSupportsTotal();
     supports[1] = calculSupportsUni();
-    supportUni.val(supports[1]);
+    supportUni.val(supports[1]); */
     $('.postes').append(template);
     initPoste();
   }
@@ -170,28 +222,47 @@ $(async function() {
         $('.color .invalid-feedback', e).show();
         return false;
       }
-      const index = parseInt(poste.substring(1), 10)-1;
-      const compo = compositions[index];
+      const compo = findCompoFromId(e.dataset.compo);
       const cmdKeys = Object.keys(commande);
-      console.log('send', {poste, qty, color, index, compo, cmdKeys});
-      if (cmdKeys.indexOf(compo.elements.mecanisme.ref) < 0) {
-        commande[compo.elements.mecanisme.ref] = 0;
-      }
-      commande[compo.elements.mecanisme.ref] += qty * compo.elements.mecanisme.qty;
-
-      if (cmdKeys.indexOf(compo.elements.enjoliveur.couleurs[color]) < 0) {
-        commande[compo.elements.enjoliveur.couleurs[color]] = 0;
-      }
-      commande[compo.elements.enjoliveur.couleurs[color]] += qty;
-      if (compo.type === 'commande' && compo.elements.hasOwnProperty('voyant')) {
-        if (cmdKeys.indexOf(compo.elements.voyant.ref) < 0) {
-          commande[compo.elements.voyant.ref] = 0;
+      console.log('send', {poste, qty, color, compo, cmdKeys});
+      if (compo.elements.hasOwnProperty('mecanisme')) {
+        if (Array.isArray(compo.elements.mecanisme.ref)) {
+          for (let i = 0; i < compo.elements.mecanisme.ref.length; i++) {
+            if (cmdKeys.indexOf(compo.elements.mecanisme.ref[i]) < 0) {
+              commande[compo.elements.mecanisme.ref[i]] = 0;
+            }
+            commande[compo.elements.mecanisme.ref[i]] += qty * compo.elements.mecanisme.qty;
+          }
+        } else {
+          if (cmdKeys.indexOf(compo.elements.mecanisme.ref) < 0) {
+            commande[compo.elements.mecanisme.ref] = 0;
+          }
+          commande[compo.elements.mecanisme.ref] += qty * compo.elements.mecanisme.qty;
         }
-        commande[compo.elements.voyant.ref] += compo.elements.voyant.qty;
+      }
+
+      if (compo.elements.hasOwnProperty('enjoliveur')) {
+        if (compo.elements.enjoliveur.hasOwnProperty('couleurs')) {
+          if (cmdKeys.indexOf(compo.elements.enjoliveur.couleurs[color]) < 0) {
+            commande[compo.elements.enjoliveur.couleurs[color]] = 0;
+          }
+          commande[compo.elements.enjoliveur.couleurs[color]] += qty;
+        } else if (compo.elements.enjoliveur.hasOwnProperty('ref')) {
+          if (cmdKeys.indexOf(compo.elements.enjoliveur.ref) < 0) {
+            commande[compo.elements.enjoliveur.ref] = 0;
+          }
+          commande[compo.elements.enjoliveur.ref] += qty;
+        }
+        if (compo.type === 'commande' && compo.elements.hasOwnProperty('voyant')) {
+          if (cmdKeys.indexOf(compo.elements.voyant.ref) < 0) {
+            commande[compo.elements.voyant.ref] = 0;
+          }
+          commande[compo.elements.voyant.ref] += compo.elements.voyant.qty;
+        }
       }
       if ((i+1) >= len) {
-        calculSupportsTotal();
-        supports[1] = calculSupportsUni();
+        /* calculSupportsTotal();
+        supports[1] = calculSupportsUni(); */
         const result = $('#result tbody');
         result.empty();
         const cmdLines = Object.keys(commande);
