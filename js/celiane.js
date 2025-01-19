@@ -15,7 +15,7 @@ $(async function() {
         supportQdl = $('#support-qdl'),
         editSupports = $('.editSupports');
 
-  const debug = false;
+  const debug = true;
   $('#result').hide();
 
   const groupes = {};
@@ -101,9 +101,10 @@ $(async function() {
         color.empty();
         color.hide();
       }
-      // TODO Gérer l'affichage des options
+      
       if (compo.elements.hasOwnProperty('options')) {
-        parent.find('.action').before(`<div class="col-md-1 col-sm-2 option" title="${compo.elements.options.name}">
+        if (debug) console.log('options', compo.elements.options);
+        $('.action', parent).before(`<div class="col-md-1 col-sm-2 option" title="${compo.elements.options.name}">
               <label for="checkOption" class="form-check-label">Option <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
   <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
 </svg></label>
@@ -111,7 +112,8 @@ $(async function() {
             </div>`);
       }
       if (compo.elements?.voyant?.option) {
-        parent.find('.action').before(`<div class="col-md-1 col-sm-2 option" title="Ajouter le voyant en option">
+        if (debug) console.log('voyant option', compo.elements.voyant);
+        $('.action', parent).before(`<div class="col-md-1 col-sm-2 option" title="Ajouter le voyant en option">
           <label for="checkOption" class="form-check-label">Option <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
   <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
 </svg></label>
@@ -295,10 +297,17 @@ $(async function() {
           commande[compo.elements.enjoliveur.ref] += qty;
         }
         if (compo.type === 'commande' && compo.elements.hasOwnProperty('voyant')) {
-          if (cmdKeys.indexOf(compo.elements.voyant.ref) < 0) {
-            commande[compo.elements.voyant.ref] = 0;
+          if (option && compo.elements.voyant.hasOwnProperty('option')) {
+            if (cmdKeys.indexOf(compo.elements.voyant.ref) < 0) {
+              commande[compo.elements.voyant.ref] = 0;
+            }
+            commande[compo.elements.voyant.ref] += qty;
+          } else if (!compo.elements.voyant.hasOwnProperty('option')) {
+            if (cmdKeys.indexOf(compo.elements.voyant.ref) < 0) {
+              commande[compo.elements.voyant.ref] = 0;
+            }
+            commande[compo.elements.voyant.ref] += compo.elements.voyant.qty;
           }
-          commande[compo.elements.voyant.ref] += compo.elements.voyant.qty;
         }
       }
       if (option && compo.elements.hasOwnProperty('options')) {
@@ -308,12 +317,6 @@ $(async function() {
         commande[compo.elements.options.ref] += qty;
       }
       
-      if (option && compo.elements?.voyant.hasOwnProperty('option')) {
-        if (cmdKeys.indexOf(compo.elements.voyant.ref) < 0) {
-          commande[compo.elements.voyant.ref] = 0;
-        }
-        commande[compo.elements.voyant.ref] += qty;
-      }
       if ((i+1) >= len) {
         /* calculSupportsTotal();
         supports[1] = calculSupportsUni(); */
