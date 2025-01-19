@@ -14,6 +14,8 @@ $(async function() {
         supportTpl = $('#support-tpl'),
         supportQdl = $('#support-qdl'),
         editSupports = $('.editSupports');
+
+  const debug = false;
   $('#result').hide();
 
   const groupes = {};
@@ -75,6 +77,7 @@ $(async function() {
       select.append(e);
     });
     select.on('change', function(ev) {
+      $('div.option', parent).remove();
       const defaultColor = $('.defaultColor option:selected').val();
       const val = this.value;
       const color = $('.selectColor', parent);
@@ -85,9 +88,9 @@ $(async function() {
       displaySupports();
       if (compo.elements.enjoliveur.hasOwnProperty('couleurs')) {
         color.empty();
-        console.log('select change', {defaultColor, val, compo, color, parent, compositions});
+        if (debug) console.log('select change', {defaultColor, val, compo, color, parent, compositions});
         const colors = Object.keys(compo.elements.enjoliveur.couleurs);
-        console.log('Couleurs', colors);
+        if (debug) console.log('Couleurs', colors);
         color.append('<option value="" selected>Select Couleur</option>');
         colors.forEach((e) => {
           let selected = '';
@@ -99,16 +102,32 @@ $(async function() {
         color.hide();
       }
       // TODO Gérer l'affichage des options
+      if (compo.elements.hasOwnProperty('options')) {
+        parent.find('.action').before(`<div class="col-md-1 col-sm-2 option" title="${compo.elements.options.name}">
+              <label for="checkOption" class="form-check-label">Option <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+</svg></label>
+              <input class="form-check-input option" type="checkbox" value="" id="checkOption">
+            </div>`);
+      }
+      if (compo.elements?.voyant?.option) {
+        parent.find('.action').before(`<div class="col-md-1 col-sm-2 option" title="Ajouter le voyant en option">
+          <label for="checkOption" class="form-check-label">Option <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+</svg></label>
+          <input class="form-check-input option" type="checkbox" value="" id="checkOption">
+        </div>`);
+      }
       $('.element .invalid-feedback', parent).hide();
     });
     qty.on('change', function(ev) {
-      console.log('Qty change');
+      // if (debug) console.log('Qty change');
       if (compo && compo.elements.support == 0) return;
       supports[1] = 0; supports[2] = 0; supports[3] = 0; supports[4] = 0;
       $('.qty').each((i, e) => {
         const par = $(e).parents('.poste').first();
         const support = parseInt(par.get(0).dataset.support, 10);
-        // console.log('support', support);
+        // if (debug) console.log('support', support);
         if (support > 0) supports[support] += parseInt($(e).val(), 10);
       });
       supportUni.val(supports[1]);
@@ -117,7 +136,7 @@ $(async function() {
       supportQdl.val(supports[4]);
     });
     del.on('click', (ev) => {
-      // console.log('Parent', parent);
+      // if (debug) console.log('Parent', parent);
       parent.remove();
     });
     $('.selectColor', parent).on('change', () => {
@@ -142,7 +161,7 @@ $(async function() {
       const qty = parseInt($(this).val(), 10),
             total = qty * 2,
             remaining = supports.total - ((supports[4] * 4) + (supports[3] * 3));
-      console.log('supportDbl', {uni: supports[1], qty});
+      if (debug) console.log('supportDbl', {uni: supports[1], qty});
       if (total > remaining) {
         supportDbl.val(supports[2]);
         showInvalidSupport();
@@ -156,7 +175,7 @@ $(async function() {
       const qty = parseInt($(this).val(), 10),
             total = qty * 3,
             remaining = supports.total - ((supports[4] * 4) + (supports[2] * 2));
-      console.log('supportTpl', {uni: supports[1], qty});
+      if (debug) console.log('supportTpl', {uni: supports[1], qty});
       if (total > remaining) {
         supportTpl.val(supports[3]);
         showInvalidSupport();
@@ -170,7 +189,7 @@ $(async function() {
       const qty = parseInt($(this).val(), 10),
             total = qty * 4,
             remaining = supports.total - ((supports[2] * 2) + (supports[3] * 3));
-      console.log('supportQdl', {uni: supports[1], qty});
+      if (debug) console.log('supportQdl', {uni: supports[1], qty});
       if (total > remaining) {
         supportQdl.val(supports[4]);
         showInvalidSupport();
@@ -208,7 +227,7 @@ $(async function() {
   })
 
   const add = (ev) => {
-    // console.log('Template', template);
+    // if (debug) console.log('Template', template);
     $('.poste.new').removeClass('new');
     /* calculSupportsTotal();
     supports[1] = calculSupportsUni();
@@ -229,14 +248,15 @@ $(async function() {
       }
       const qty = parseInt($('.qty', this).val(), 10);
       const color = $('.selectColor option:selected', this).val();
-      console.log('Color', $('.selectColor option:selected', this));
+      if (debug) console.log('Color', $('.selectColor option:selected', this));
       if (color.length <= 0) {
         $('.color .invalid-feedback', e).show();
         return false;
       }
       const compo = findCompoFromId(e.dataset.compo);
       const cmdKeys = Object.keys(commande);
-      console.log('send', {poste, qty, color, compo, cmdKeys});
+      const option = $('input.option', this).is(':checked');
+      if (debug) console.log('send', {poste, qty, color, option, compo, cmdKeys});
       if (compo.elements.hasOwnProperty('mecanisme')) {
         if (Array.isArray(compo.elements.mecanisme.ref)) {
           for (let i = 0; i < compo.elements.mecanisme.ref.length; i++) {
@@ -272,6 +292,19 @@ $(async function() {
           commande[compo.elements.voyant.ref] += compo.elements.voyant.qty;
         }
       }
+      if (option && compo.elements.hasOwnProperty('options')) {
+        if (cmdKeys.indexOf(compo.elements.options.ref) < 0) {
+          commande[compo.elements.options.ref] = 0;
+        }
+        commande[compo.elements.options.ref] += qty;
+      }
+      
+      if (option && compo.elements?.voyant.hasOwnProperty('option')) {
+        if (cmdKeys.indexOf(compo.elements.voyant.ref) < 0) {
+          commande[compo.elements.voyant.ref] = 0;
+        }
+        commande[compo.elements.voyant.ref] += qty;
+      }
       if ((i+1) >= len) {
         /* calculSupportsTotal();
         supports[1] = calculSupportsUni(); */
@@ -288,8 +321,10 @@ $(async function() {
           index = i;
         });
         index++;
-        result.append(`<tr><th scope="row">${index+1}</th><td>0 802 51</td><td>${supports[1]}</td></tr>`);
-        index++;
+        if (supports[1] > 0) {
+          result.append(`<tr><th scope="row">${index+1}</th><td>0 802 51</td><td>${supports[1]}</td></tr>`);
+          index++;
+        }
         if (supports[2] > 0) {
           result.append(`<tr><th scope="row">${index+1}</th><td>0 802 52</td><td>${supports[2]}</td></tr>`);
           index++;
