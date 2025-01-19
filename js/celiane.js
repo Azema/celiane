@@ -49,10 +49,20 @@ $(async function() {
   }
   const calculSupportsTotal = () => {
     let total = 0;
-    $('.qty').each((i, e) => {
-      total += parseInt($(e).val(), 10);
-    });
+    for(let i=1; i < 5;i++) supports[i] = 0;
+    $('.poste').each(function() {
+      const qty = parseInt($(this).find('.qty').val(), 10);
+      const support = this.dataset.support;
+      if (support > 0) supports[support] += qty;
+      total += support * qty;
+    })
     supports.total = total;
+  }
+  const displaySupports = () => {
+    supportUni.val(supports[1]);
+    supportDbl.val(supports[2]);
+    supportTpl.val(supports[3]);
+    supportQdl.val(supports[4]);
   }
 
   const initPoste = () => {
@@ -67,15 +77,15 @@ $(async function() {
     select.on('change', function(ev) {
       const defaultColor = $('.defaultColor option:selected').val();
       const val = this.value;
+      const color = $('.selectColor', parent);
       compo = findCompoFromId(val);
-      console.log('Parent', parent.get(0));
       parent.get(0).dataset.compo = val;
       parent.get(0).dataset.support = compo.elements.support;
-      const index = parseInt(val.substring(1), 10)-1;
-      const color = $('.selectColor', parent);
+      if (compo.elements.support > 0) supports[compo.elements.support]++;
+      displaySupports();
       if (compo.elements.enjoliveur.hasOwnProperty('couleurs')) {
         color.empty();
-        console.log('select change', {defaultColor, val, index, compo, color, parent, compositions});
+        console.log('select change', {defaultColor, val, compo, color, parent, compositions});
         const colors = Object.keys(compo.elements.enjoliveur.couleurs);
         console.log('Couleurs', colors);
         color.append('<option value="" selected>Select Couleur</option>');
@@ -88,6 +98,7 @@ $(async function() {
         color.empty();
         color.hide();
       }
+      // TODO Gérer l'affichage des options
       $('.element .invalid-feedback', parent).hide();
     });
     qty.on('change', function(ev) {
@@ -97,19 +108,9 @@ $(async function() {
       $('.qty').each((i, e) => {
         const par = $(e).parents('.poste').first();
         const support = parseInt(par.get(0).dataset.support, 10);
-        console.log('support', support);
+        // console.log('support', support);
         if (support > 0) supports[support] += parseInt($(e).val(), 10);
       });
-      /* if (total === supports.total+1) {
-        supports.total++;
-        supports[1]++;
-      } else if (total === supports.total-1) {
-        supports.total--;
-        supports[1]--;
-      } else {
-        supports.total = total;
-        supports[1] = calculSupportsUni();
-      } */
       supportUni.val(supports[1]);
       supportDbl.val(supports[2]);
       supportTpl.val(supports[3]);
@@ -131,52 +132,61 @@ $(async function() {
   const showInvalidSupport = () => {
     $( ".supports .invalid-feedback" ).fadeIn(400).delay( 2000 ).slideUp( 300 );
   }
-  /* supportUni.on('change', function(ev) {
-    const qty = parseInt($(this).val(), 10);
-    supports[1] = calculSupportsUni();
-  });
-  supportDbl.on('change', function(ev) {
-    const qty = parseInt($(this).val(), 10),
-          total = qty * 2,
-          remaining = supports.total - ((supports[4] * 4) + (supports[3] * 3));
-    console.log('supportDbl', {uni: supports[1], qty});
-    if (total > remaining) {
-      supportDbl.val(supports[2]);
-      showInvalidSupport();
-      return false;
-    }
-    supports[2] = qty;
-    supports[1] = calculSupportsUni();
-    supportUni.val(supports[1]);
-  });
-  supportTpl.on('change', function(ev) {
-    const qty = parseInt($(this).val(), 10),
-          total = qty * 3,
-          remaining = supports.total - ((supports[4] * 4) + (supports[2] * 2));
-    console.log('supportTpl', {uni: supports[1], qty});
-    if (total > remaining) {
-      supportTpl.val(supports[3]);
-      showInvalidSupport();
-      return false;
-    }
-    supports[3] = qty;
-    supports[1] = calculSupportsUni();
-    supportUni.val(supports[1]);
-  });
-  supportQdl.on('change', function(ev) {
-    const qty = parseInt($(this).val(), 10),
-          total = qty * 4,
-          remaining = supports.total - ((supports[2] * 2) + (supports[3] * 3));
-    console.log('supportQdl', {uni: supports[1], qty});
-    if (total > remaining) {
-      supportQdl.val(supports[4]);
-      showInvalidSupport();
-      return false;
-    }
-    supports[4] = qty;
-    supports[1] = calculSupportsUni();
-    supportUni.val(supports[1]);
-  }); */
+  const activeSupportsEvent = () => {
+    calculSupportsTotal();
+    supportUni.on('change', function(ev) {
+      // const qty = parseInt($(this).val(), 10);
+      // supports[1] = calculSupportsUni();
+    });
+    supportDbl.on('change', function(ev) {
+      const qty = parseInt($(this).val(), 10),
+            total = qty * 2,
+            remaining = supports.total - ((supports[4] * 4) + (supports[3] * 3));
+      console.log('supportDbl', {uni: supports[1], qty});
+      if (total > remaining) {
+        supportDbl.val(supports[2]);
+        showInvalidSupport();
+        return false;
+      }
+      supports[2] = qty;
+      supports[1] = calculSupportsUni();
+      supportUni.val(supports[1]);
+    });
+    supportTpl.on('change', function(ev) {
+      const qty = parseInt($(this).val(), 10),
+            total = qty * 3,
+            remaining = supports.total - ((supports[4] * 4) + (supports[2] * 2));
+      console.log('supportTpl', {uni: supports[1], qty});
+      if (total > remaining) {
+        supportTpl.val(supports[3]);
+        showInvalidSupport();
+        return false;
+      }
+      supports[3] = qty;
+      supports[1] = calculSupportsUni();
+      supportUni.val(supports[1]);
+    });
+    supportQdl.on('change', function(ev) {
+      const qty = parseInt($(this).val(), 10),
+            total = qty * 4,
+            remaining = supports.total - ((supports[2] * 2) + (supports[3] * 3));
+      console.log('supportQdl', {uni: supports[1], qty});
+      if (total > remaining) {
+        supportQdl.val(supports[4]);
+        showInvalidSupport();
+        return false;
+      }
+      supports[4] = qty;
+      supports[1] = calculSupportsUni();
+      supportUni.val(supports[1]);
+    });
+  };
+  const unactiveSupportsEvent = () => {
+    supportUni.off('change');
+    supportDbl.off('change');
+    supportTpl.off('change');
+    supportQdl.off('change');
+  }
   supportUni.val(supports[1]);
   supportDbl.val(supports[2]);
   supportTpl.val(supports[3]);
@@ -187,7 +197,9 @@ $(async function() {
       supportDbl.removeAttr('disabled');
       supportTpl.removeAttr('disabled');
       supportQdl.removeAttr('disabled');
+      activeSupportsEvent();
     } else {
+      unactiveSupportsEvent();
       supportUni.prop('disabled', true);
       supportDbl.prop('disabled', true);
       supportTpl.prop('disabled', true);
