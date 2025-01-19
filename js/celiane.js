@@ -15,7 +15,7 @@ $(async function() {
         supportQdl = $('#support-qdl'),
         editSupports = $('.editSupports');
 
-  const debug = false;
+  const debug = true;
   $('#result').hide();
 
   const groupes = {};
@@ -275,10 +275,19 @@ $(async function() {
 
       if (compo.elements.hasOwnProperty('enjoliveur')) {
         if (compo.elements.enjoliveur.hasOwnProperty('couleurs')) {
-          if (cmdKeys.indexOf(compo.elements.enjoliveur.couleurs[color]) < 0) {
-            commande[compo.elements.enjoliveur.couleurs[color]] = 0;
+          if (Array.isArray(compo.elements.enjoliveur.couleurs[color])) {
+            for (let r=0; r < compo.elements.enjoliveur.couleurs[color].length; r++) {
+              if (cmdKeys.indexOf(compo.elements.enjoliveur.couleurs[color][r])) {
+                commande[compo.elements.enjoliveur.couleurs[color][r]] = 0;
+              }
+              commande[compo.elements.enjoliveur.couleurs[color][r]] += qty;
+            }
+          } else {
+            if (cmdKeys.indexOf(compo.elements.enjoliveur.couleurs[color]) < 0) {
+              commande[compo.elements.enjoliveur.couleurs[color]] = 0;
+            }
+            commande[compo.elements.enjoliveur.couleurs[color]] += qty;
           }
-          commande[compo.elements.enjoliveur.couleurs[color]] += qty;
         } else if (compo.elements.enjoliveur.hasOwnProperty('ref')) {
           if (cmdKeys.indexOf(compo.elements.enjoliveur.ref) < 0) {
             commande[compo.elements.enjoliveur.ref] = 0;
