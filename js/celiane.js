@@ -368,7 +368,9 @@ $(async function() {
         document.getElementById('result').scrollIntoView();
         $('#printResult').on('click', () => {
           var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
-          WinPrint.document.write(document.getElementById('result').outerHTML + '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" media="screen,print" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
+          WinPrint.document.write('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" media="screen,print" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">');
+          WinPrint.document.write('<style type="text/css">#result .chantier {font-weight: bold}</style>');
+          WinPrint.document.write(document.getElementById('result').outerHTML);
           WinPrint.document.close();
           WinPrint.addEventListener("beforeprint", (event) => {
             WinPrint.document.title = `Commande Celiane - ${chantier} - ${today.toLocaleString()}`;
