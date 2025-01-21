@@ -19,22 +19,28 @@ $(async function() {
   const debug = false;
   $('#result').hide();
 
-  const groupes = {};
-  compositions.forEach((e, i) => {
-    if (!groupes.hasOwnProperty(e.categorie)) {
-      groupes[e.categorie] = [];
-    }
-    groupes[e.categorie].push(`<option value="${e.id}">${e.name}</option>`);
-    // optionsPostes.push();
-  });
-  Object.keys(groupes).forEach((g, i) => {
-    let groupe = `<optgroup label="${g}">`;
-    groupes[g].forEach((o, i) => {
-      groupe += o;
+  /**
+   * Permet de créer les groupes et les options de sélection des postes
+   */
+  function createOptions() {
+    const groupes = {};
+    compositions.forEach((e, i) => {
+      if (!groupes.hasOwnProperty(e.categorie)) {
+        groupes[e.categorie] = [];
+      }
+      groupes[e.categorie].push(`<option value="${e.id}">${e.name}</option>`);
+      // optionsPostes.push();
     });
-    groupe += '</optgroup>';
-    optionsPostes.push(groupe);
-  })
+    Object.keys(groupes).forEach((g, i) => {
+      let groupe = `<optgroup label="${g}">`;
+      groupes[g].forEach((o, i) => {
+        groupe += o;
+      });
+      groupe += '</optgroup>';
+      optionsPostes.push(groupe);
+    });
+  }
+  createOptions();
 
   const findCompoFromId = (id) => {
     for (let c = 0, _len = compositions.length; c < _len; c++) {
@@ -78,6 +84,8 @@ $(async function() {
       select.append(e);
     });
     select.on('change', function(ev) {
+      ev.stopPropagation();
+      ev.preventDefault();
       $('div.option', parent).remove();
       const defaultColor = $('.defaultColor option:selected').val();
       const val = this.value;
@@ -85,11 +93,12 @@ $(async function() {
       compo = findCompoFromId(val);
       parent.get(0).dataset.compo = val;
       parent.get(0).dataset.support = compo.elements.support;
-      if (compo.elements.support > 0) supports[compo.elements.support]++;
+      if (debug) console.log('Support du poste: ', compo.elements.support, supports[compo.elements.support]);
+      // if (compo.elements.support > 0) supports[compo.elements.support]++;
       displaySupports();
       if (compo.elements.enjoliveur.hasOwnProperty('couleurs')) {
         color.empty();
-        if (debug) console.log('select change', {defaultColor, val, compo, color, parent, compositions});
+        if (debug) console.log('select change', {defaultColor, val, compo, color, supports, parent, compositions});
         const colors = Object.keys(compo.elements.enjoliveur.couleurs);
         if (debug) console.log('Couleurs', colors);
         color.append('<option value="" selected>Select Couleur</option>');
@@ -126,7 +135,7 @@ $(async function() {
       $('.element .invalid-feedback', parent).hide();
     });
     qty.on('change', function(ev) {
-      // if (debug) console.log('Qty change');
+      if (debug) console.log('Qty change');
       if (compo && compo.elements.support == 0) return;
       supports[1] = 0; supports[2] = 0; supports[3] = 0; supports[4] = 0;
       $('.qty').each((i, e) => {
@@ -135,10 +144,7 @@ $(async function() {
         // if (debug) console.log('support', support);
         if (support > 0) supports[support] += parseInt($(e).val(), 10);
       });
-      supportUni.val(supports[1]);
-      supportDbl.val(supports[2]);
-      supportTpl.val(supports[3]);
-      supportQdl.val(supports[4]);
+      displaySupports();
     });
     del.on('click', (ev) => {
       // if (debug) console.log('Parent', parent);
@@ -211,10 +217,7 @@ $(async function() {
     supportTpl.off('change');
     supportQdl.off('change');
   }
-  supportUni.val(supports[1]);
-  supportDbl.val(supports[2]);
-  supportTpl.val(supports[3]);
-  supportQdl.val(supports[4]);
+  displaySupports();
   editSupports.on('click', (e) => {
     if (supportUni.prop('disabled')) {
       supportUni.removeAttr('disabled');
@@ -232,12 +235,9 @@ $(async function() {
   })
 
   const add = (ev) => {
-    // if (debug) console.log('Template', template);
     $('.poste.new').removeClass('new');
-    /* calculSupportsTotal();
-    supports[1] = calculSupportsUni();
-    supportUni.val(supports[1]); */
     $('.postes').append(template);
+    calculSupportsTotal();
     initPoste();
   }
 
@@ -357,7 +357,7 @@ $(async function() {
         const chantier = $('#chantier').val();
         $('#result tfoot').append(`<tr><td>Ref. Chantier:</td><td class="chantier">${chantier}</td></tr>`);
         
-        const btnPrint = `<button id="printResult" class="btn d-print-none"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
+        const btnPrint = `<button id="printResult" class="btn btn-warning d-print-none" title="Imprimer votre bon de commande"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
   <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
   <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"/>
 </svg></button>`;
@@ -383,8 +383,39 @@ $(async function() {
     });
   }
 
+  /**
+   * Permet de remettre le formulaire à zéro
+   */
+  const recycle = () => {
+    // Nettoyer les champs Chantier et Color
+    $('#chantier').val('');
+    $("#defaultColor").val($("#defaultColor option:first").val());
+
+    // Supprimer les lignes de postes
+    $('.postes .poste').remove();
+    $('.postes').append(template);
+
+    // Remettre les supports à zéro
+    supports[1] = 0; supports[2] = 0; supports[3] = 0; supports[4] = 0; supports.total = 0;
+    displaySupports();
+
+    // Nettoyer la zone du bon de commande
+    $('#result tbody').empty();
+    $('#result tfoot').empty();
+    // On cache la partie commande
+    $('#result').hide();
+
+    // On initialise la première ligne de poste
+    initPoste();
+    
+    // On scroll jusqu'à la ligne du poste
+    $('#labelChantier').get(0).scrollIntoView();
+    $('#chantier').focus();
+  }
+
   $('.add').on('click', add);
   $('.send').on('click', send);
+  $('#recycle').on('click', recycle);
 
   initPoste();
 });
