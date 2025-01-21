@@ -678,16 +678,15 @@
     "categorie": "Poussoirs",
     "elements": {
       "mecanisme": {
-        "ref": "CM0031",
+        "ref": "CM0033",
         "qty": 1
       },
       "enjoliveur": {
         "couleurs": {
-          "blanc": "CB0001",
-          "noir": "CN0001",
-          "titanium": "CT0001",
-          "antimicrobien": "CB0027",
-          "ip44": "CB8001"
+          "blanc": "CB0007",
+          "noir": "CN0007",
+          "titanium": "CT0007",
+          "antimicrobien": "CT1027"
         },
         "qty": 1
       },
