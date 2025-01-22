@@ -68,6 +68,7 @@ $(async function() {
     supports.total = total;
   }
   const displaySupports = () => {
+    calculSupportsTotal();
     supportUni.val(supports[1]);
     supportDbl.val(supports[2]);
     supportTpl.val(supports[3]);
@@ -147,8 +148,12 @@ $(async function() {
       displaySupports();
     });
     del.on('click', (ev) => {
-      // if (debug) console.log('Parent', parent);
+      const support = parent.get(0).dataset.support;
+      const qty = parseInt($('.qty', parent).val(), 10);
+      if (support > 0) supports[support] -= qty;
+      if (debug) console.log('Del row', {parent, support, qty});
       parent.remove();
+      displaySupports();
     });
     $('.selectColor', parent).on('change', () => {
       $('.color .invalid-feedback', parent).hide();
