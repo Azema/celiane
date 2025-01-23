@@ -18,6 +18,7 @@ $(async function() {
 
   const debug = false;
   $('#result').hide();
+  $('.export').hide();
 
   /**
    * Permet de créer les groupes et les options de sélection des postes
@@ -244,6 +245,7 @@ $(async function() {
     $('.postes').append(template);
     calculSupportsTotal();
     initPoste();
+    $('.export').show();
   }
 
   const send = (ev) => {
@@ -386,7 +388,6 @@ $(async function() {
           });
           WinPrint.focus();
           WinPrint.print();
-          // WinPrint.close();
         })
       }
     });
@@ -413,6 +414,7 @@ $(async function() {
     $('#result tfoot').empty();
     // On cache la partie commande
     $('#result').hide();
+    $('.export').hide();
 
     // On initialise la première ligne de poste
     initPoste();
@@ -422,9 +424,140 @@ $(async function() {
     $('#chantier').focus();
   }
 
+  /**
+   * Permet d'exporter une liste de postes
+   */
+  const exportList = () => {
+    const JSONToFile = (obj, filename) => {
+      const blob = new Blob([JSON.stringify(obj, null, 2)], {
+        type: 'application/json',
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${filename}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+    if (debug) console.log('exportList');
+    const lines = $('.poste');
+    const len = lines.length;
+    if (len <= 0) {
+      // Afficher une popup pour avertir
+      return false;
+    }
+    const chantier = $('#chantier').val();
+    const defaultColor = $('.defaultColor option:selected').val();
+    const today = new Date(Date.now());
+    const project = {
+      chantier: chantier,
+      defaultColor: defaultColor,
+      date: today.toISOString(),
+      postes: {}
+    };
+    if (debug) console.log('exportList project', project);
+    lines.each(function(i, e) {
+      if (!e.dataset?.compo) {
+        if (debug) console.error('exportList compo dataset not fournd');
+        return false;
+      }
+      const poste = $('.selectPoste option:selected', this).val();
+      if (poste.length <= 0) {
+        if (debug) console.error('exportList selectPoste empty');
+        return false;
+      }
+      const qty = parseInt($('.qty', this).val(), 10);
+      const color = $('.selectColor option:selected', this).val();
+      if (color.length <= 0) {
+        if (debug) console.error('exportList color empty');
+        return false;
+      }
+      // const compo = findCompoFromId(e.dataset.compo);
+      // const option = $('input.option', this).is(':checked');
+      if (debug) console.log('send', {poste, qty, color, compo: e.dataset.compo});
+      project.postes[e.dataset.compo] = { qty: qty, color: color};
+      if ($('input.option', this).length > 0) {
+        project.postes[e.dataset.compo].option = $('input.option', this).is(':checked');
+      }
+      if (i >= len-1) {
+        JSONToFile(project, `Projet Celiane - ${chantier} - ${today.toLocaleString()}`);
+      }
+    });
+  }
+  const inputFile = $('#projectFile');
+  const btnImportProject = $('.importProject');
+  inputFile.on('change', function(e) {
+    /** @type HTMLInputElement */
+    const input = this;
+    
+    const curFiles = input.files;
+    if (curFiles.length > 0) {
+      if (curFiles[0].type !== 'application/json') {
+        // Ajouter un message d'erreur
+        $('.invalid-feedback.file').show();
+      } else {
+        $('.invalid-feedback.file').hide();
+        btnImportProject.removeAttr('disabled');
+      }
+    } else {
+      btnImportProject.prop('disabled', true);
+    }
+  });
+  btnImportProject.on('click', (e) => {
+    /** @type HTMLInputElement */
+    const input = document.getElementById('projectFile');
+    const curFiles = input.files;
+    if (curFiles.length > 0 && curFiles[0].type === 'application/json') {
+      try {
+        const fr = new FileReader();
+        fr.onload = (e) => {
+          const project = JSON.parse(e.target.result);
+          console.log('Project uploaded', project);
+          // TODO Nettoyer le formulaire
+          if (!project.hasOwnProperty('chantier')) {
+            // Mauvais fichier
+            if (debug) console.error('Le fichier n\'est pas correct');
+            return false;
+          }
+          $('#chantier').val(project.chantier);
+          $('#defaultColor option').removeAttr('selected');
+          $(`#defaultColor option[value="${project.defaultColor}"]`).prop('selected', true);
+          const posteKeys = Object.keys(project.postes);
+          for (let p = 0, _len = posteKeys.length; p < _len; p++) {
+            const id = posteKeys[p];
+            const poste = project.postes[id];
+            if (debug) console.log('Poste[%d]', id, poste);
+            const compo = findCompoFromId(id);
+            const parent = $('.poste.new');
+            const colors = Object.keys(compo.elements.enjoliveur.couleurs);
+            parent.get(0).dataset.compo = id;
+            parent.get(0).dataset.support = compo.elements.support;
+            $(`.poste.new .selectPoste option[value="${id}"]`).prop("selected", true);
+            $(`.poste.new .qty`).val(poste.qty);
+            if (debug) console.log('Couleurs', colors);
+            $('.poste.new .selectColor').empty();
+            colors.forEach((e) => {
+              let selected = '';
+              if (poste.color == e) { selected = 'selected'; }
+              $('.poste.new .selectColor').append(`<option value="${e}"${selected}>${e}</option>`);
+            });
+            $('.poste.new').removeClass('new');
+            $('.postes').append(template);
+            calculSupportsTotal();
+            initPoste();
+          }
+        };
+        fr.readAsText(curFiles.item(0));
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  });
+
   $('.add').on('click', add);
   $('.send').on('click', send);
   $('#recycle').on('click', recycle);
+  $('.export').on('click', exportList);
 
   initPoste();
 });

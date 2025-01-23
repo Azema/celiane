@@ -37,8 +37,16 @@
       <p>Pour commander tout le matériel nécessaire pour l'installation d'appareillage Céliane, il vous faut plusieurs composants pour un élément. Cette page vous permet de réaliser un bon de commande à imprimer à partir des éléments dont vous avez besoin pour votre chantier.</p>
       <p>Choisissez les éléments de votre chantier et indiquez la quantité. Par défaut, les supports sont comptés à l'unité, mais vous pouvez indiquer le nombre de supports double, triple ou quadruple dont vous avez besoin. Ils seront automatiquement déduits des supports unitaires.</p>
     </article>
-    <section id="postes">
-      
+
+    <section id="import" class="mb-3">
+      <div class="mb-3">
+        <label for="projectFile" class="form-label">Fichier de projet Céliane</label>
+        <input class="form-control" type="file" id="projectFile" accept=".json,application/json">
+        <div class="invalid-feedback file">Vous ne pouvez charger que des fichiers de type JSON</div>
+      </div>
+      <div>
+        <button class="btn btn-primary importProject" disabled>Importer</button>
+      </div>
     </section>
     <section id="commande">
       <div class="container-fluid">
@@ -116,6 +124,7 @@
           </div>
           <div class="col align-self-end">
             <button type="button" class="btn btn-success send">Commander</button>
+            <button type="button" class="btn btn-info export">Exporter</button>
           </div>
         </div>
         <div class="row supports">
