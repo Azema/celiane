@@ -14,7 +14,9 @@ $(async function() {
         supportDbl = $('#support-dbl'),
         supportTpl = $('#support-tpl'),
         supportQdl = $('#support-qdl'),
-        editSupports = $('.editSupports');
+        editSupports = $('.editSupports'),
+        $chantier = $('#chantier'),
+        $defaultColor = $('#defaultColor');
 
   const debug = false;
   $('#result').hide();
@@ -68,8 +70,8 @@ $(async function() {
     })
     supports.total = total;
   }
-  const displaySupports = () => {
-    calculSupportsTotal();
+  const displaySupports = (force = false) => {
+    if (!force) calculSupportsTotal();
     supportUni.val(supports[1]);
     supportDbl.val(supports[2]);
     supportTpl.val(supports[3]);
@@ -89,7 +91,7 @@ $(async function() {
       ev.stopPropagation();
       ev.preventDefault();
       $('div.option', parent).remove();
-      const defaultColor = $('.defaultColor option:selected').val();
+      const defaultColor = $('option:selected', $defaultColor).val();
       const val = this.value;
       const color = $('.selectColor', parent);
       compo = findCompoFromId(val);
@@ -365,7 +367,7 @@ $(async function() {
         if (supports[4] > 0) {
           result.append(`<tr><th scope="row">${index+1}</th><td>${composants['080254'].label}</td><td>0 802 54</td><td>${supports[4]}</td></tr>`);
         }
-        const chantier = $('#chantier').val();
+        const chantier = $chantier.val();
         $('#result tfoot').append(`<tr><td>Ref. Chantier:</td><td class="chantier">${chantier}</td></tr>`);
         
         const btnPrint = `<button id="printResult" class="btn btn-warning d-print-none" title="Imprimer votre bon de commande"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
@@ -398,8 +400,8 @@ $(async function() {
    */
   const recycle = () => {
     // Nettoyer les champs Chantier et Color
-    $('#chantier').val('');
-    $("#defaultColor").val($("#defaultColor option:first").val());
+    $chantier.val('');
+    $defaultColor.val($("option:first", $defaultColor).val());
 
     // Supprimer les lignes de postes
     $('.postes .poste').remove();
@@ -421,7 +423,7 @@ $(async function() {
     
     // On scroll jusqu'à la ligne du poste
     $('#labelChantier').get(0).scrollIntoView();
-    $('#chantier').focus();
+    $chantier.focus();
   }
 
   /**
@@ -446,14 +448,15 @@ $(async function() {
       // Afficher une popup pour avertir
       return false;
     }
-    const chantier = $('#chantier').val();
-    const defaultColor = $('.defaultColor option:selected').val();
+    const chantier = $chantier.val();
+    const defaultColor = $('option:selected', $defaultColor).val();
     const today = new Date(Date.now());
     const project = {
       chantier: chantier,
       defaultColor: defaultColor,
       date: today.toISOString(),
-      postes: {}
+      postes: {},
+      supports
     };
     if (debug) console.log('exportList project', project);
     lines.each(function(i, e) {
@@ -520,8 +523,8 @@ $(async function() {
             return false;
           }
           $('#chantier').val(project.chantier);
-          $('#defaultColor option').removeAttr('selected');
-          $(`#defaultColor option[value="${project.defaultColor}"]`).prop('selected', true);
+          $('option', $defaultColor).removeAttr('selected');
+          $(`option[value="${project.defaultColor}"]`, $defaultColor).prop('selected', true);
           const posteKeys = Object.keys(project.postes);
           for (let p = 0, _len = posteKeys.length; p < _len; p++) {
             const id = posteKeys[p];
@@ -543,9 +546,17 @@ $(async function() {
             });
             $('.poste.new').removeClass('new');
             $('.postes').append(template);
-            calculSupportsTotal();
             initPoste();
           }
+          const supportKeys = Object.keys(project.supports);
+          for (let s = 0, _len = supportKeys.length; s < _len; s++) {
+            const key = supportKeys[s];
+            supports[key] = project.supports[key];
+            if (debug) console.log('Support[%s]: ', key, {project: project.supports[key], actual: supports[key]});
+          }
+          if (debug) console.log('Supports A: ', supports);
+          displaySupports(true);
+          if (debug) console.log('Supports B: ', supports);
         };
         fr.readAsText(curFiles.item(0));
       } catch (err) {
@@ -560,4 +571,5 @@ $(async function() {
   $('.export').on('click', exportList);
 
   initPoste();
+  $chantier.focus();
 });
