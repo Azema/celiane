@@ -36,16 +36,24 @@
     <article>
       <p>Pour commander tout le matériel nécessaire pour l'installation d'appareillage Céliane, il vous faut plusieurs composants pour un élément. Cette page vous permet de réaliser un bon de commande à imprimer à partir des éléments dont vous avez besoin pour votre chantier.</p>
       <p>Choisissez les éléments de votre chantier et indiquez la quantité. Par défaut, les supports sont comptés à l'unité, mais vous pouvez indiquer le nombre de supports double, triple ou quadruple dont vous avez besoin. Ils seront automatiquement déduits des supports unitaires.</p>
+      <p>Vous pouvez commencer un projet Céliane et l'exporter dans un fichier. Puis le restaurer, en l'important, pour continuer votre projet un peu plus tard.</p>
+      <p>Projet testé sur Chrome et sur Firefox</p>
     </article>
 
-    <section id="import" class="mb-3">
-      <div class="mb-3">
-        <label for="projectFile" class="form-label">Fichier de projet Céliane</label>
-        <input class="form-control" type="file" id="projectFile" accept=".json,application/json">
-        <div class="invalid-feedback file">Vous ne pouvez charger que des fichiers de type JSON</div>
-      </div>
-      <div>
-        <button class="btn btn-primary importProject" disabled>Importer</button>
+    <section id="import" class="mb-3 border">
+      <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseImport" aria-expanded="false" aria-controls="collapseImport">Importer un projet existant</button>
+      <div class="collapse" id="collapseImport">
+        <div class="m-3 row">
+          <div class="col-md-8">
+            <label for="projectFile" class="form-label">Fichier de projet Céliane</label>
+            <input class="form-control" type="file" id="projectFile" accept=".json,application/json">
+            <div class="invalid-feedback file">Vous ne pouvez charger que des fichiers de type JSON</div>
+          </div>
+          <div class="col-md-2 mt-4">
+            <button class="btn btn-primary importProject" disabled>Importer</button>
+          </div>
+          
+        </div>
       </div>
     </section>
     <section id="commande">
