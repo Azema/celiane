@@ -118,23 +118,23 @@ $(async function() {
       
       if (compo.elements.hasOwnProperty('options')) {
         if (debug) console.log('options', compo.elements.options);
-        $('.action', parent).before(`<div class="col-md-1 col-sm-2 option" title="${compo.elements.options.name}" data-toggle="tooltip" data-placement="top">
+        $('.action', parent).before(`<div class="col-md-1 col-sm-2 option" title="${compo.elements.options.name}" data-bs-toggle="tooltip" data-bs-placement="top">
               <label class="form-check-label">Option <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
   <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
 </svg></label>
               <input class="form-check-input option" type="checkbox" value="">
             </div>`);
-        $('[data-toggle="tooltip"]').tooltip()
+        $('[data-bs-toggle="tooltip"]').tooltip()
       }
       if (compo.elements?.voyant?.option) {
         if (debug) console.log('voyant option', compo.elements.voyant);
-        $('.action', parent).before(`<div class="col-md-1 col-sm-2 option" title="Ajouter le voyant en option" data-toggle="tooltip" data-placement="top">
+        $('.action', parent).before(`<div class="col-md-1 col-sm-2 option" title="Ajouter le voyant en option" data-bs-toggle="tooltip" data-bs-placement="top">
           <label class="form-check-label">Option <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
   <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
 </svg></label>
           <input class="form-check-input option" type="checkbox" value="">
         </div>`);
-        $('[data-toggle="tooltip"]').tooltip()
+        $('[data-bs-toggle="tooltip"]').tooltip()
       }
       $('.element .invalid-feedback', parent).hide();
     });
@@ -150,19 +150,30 @@ $(async function() {
       });
       displaySupports();
     });
-    del.on('click', (ev) => {
+    /* del.on('click', (ev) => {
+      $modalDelete.show();
+    }); */
+    $('.selectColor', parent).on('change', () => {
+      $('.color .invalid-feedback', parent).hide();
+    })
+    select.focus();
+  }
+  const $modalDelete = $('#modalDelete');
+  $modalDelete.on('shown.bs.modal', function (event) {
+    // Button that triggered the modal
+    const button = $(event.relatedTarget);
+    if (debug) console.log('Modal button', button);
+    $modalDelete.on("click", ".btn-primary", () => {
+      const parent = button.parents('.poste').first();
       const support = parent.get(0).dataset.support;
       const qty = parseInt($('.qty', parent).val(), 10);
       if (support > 0) supports[support] -= qty;
       if (debug) console.log('Del row', {parent, support, qty});
       parent.remove();
       displaySupports();
-    });
-    $('.selectColor', parent).on('change', () => {
-      $('.color .invalid-feedback', parent).hide();
-    })
-    select.focus();
-  }
+      $modalDelete.modal('hide');
+   });
+  })
 
   /*
    *  Supports
@@ -552,11 +563,10 @@ $(async function() {
           for (let s = 0, _len = supportKeys.length; s < _len; s++) {
             const key = supportKeys[s];
             supports[key] = project.supports[key];
-            if (debug) console.log('Support[%s]: ', key, {project: project.supports[key], actual: supports[key]});
+            // if (debug) console.log('Support[%s]: ', key, {project: project.supports[key], actual: supports[key]});
           }
-          if (debug) console.log('Supports A: ', supports);
+          // if (debug) console.log('Supports A: ', supports);
           displaySupports(true);
-          if (debug) console.log('Supports B: ', supports);
         };
         fr.readAsText(curFiles.item(0));
       } catch (err) {
@@ -570,6 +580,7 @@ $(async function() {
   $('#recycle').on('click', recycle);
   $('.export').on('click', exportList);
 
+  $('[data-bs-toggle="tooltip"]').tooltip();
   initPoste();
   $chantier.focus();
 });
