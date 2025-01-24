@@ -170,7 +170,7 @@ $(async function() {
       if (support > 0) supports[support] -= qty;
       if (debug) console.log('Del row', {parent, support, qty});
       parent.remove();
-      displaySupports();
+      displaySupports(true);
       $modalDelete.modal('hide');
    });
   })
@@ -238,12 +238,15 @@ $(async function() {
   }
   displaySupports();
   editSupports.on('click', (e) => {
+    const icon = $('i', editSupports);
+    let title = 'Modifier les quantités de supports';
     if (supportUni.prop('disabled')) {
       supportUni.removeAttr('disabled');
       supportDbl.removeAttr('disabled');
       supportTpl.removeAttr('disabled');
       supportQdl.removeAttr('disabled');
       activeSupportsEvent();
+      title = 'Cliquez à nouveau pour vérouiller vos choix.';
     } else {
       unactiveSupportsEvent();
       supportUni.prop('disabled', true);
@@ -251,6 +254,10 @@ $(async function() {
       supportTpl.prop('disabled', true);
       supportQdl.prop('disabled', true);
     }
+    icon.toggleClass('bi-pencil-fill bi-pencil');
+    editSupports.attr('data-bs-original-title', title);
+    editSupports.tooltip('hide');
+    // editSupports.tooltip();
   })
 
   const add = (ev) => {
