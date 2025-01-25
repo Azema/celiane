@@ -6,7 +6,6 @@ async function printJSON(file) {
 $(async function() {
   const compositions = await printJSON('/celiane/js/celiane.json');
   const composants = await printJSON('/celiane/js/composants.json');
-  const commande = {};
   const supports = {1: 0, 2: 0, 3: 0, 4: 0, total: 0};
   const optionsPostes = [];
   const template = $('script[data-template="rowPoste"]').text();
@@ -83,6 +82,7 @@ $(async function() {
     const select = $('.selectPoste', parent);
     const qty = $('.qty', parent);
     const del = $('.del', parent);
+    const btnNumber = $('.btn-number', parent);
     let compo;
     optionsPostes.forEach((e) => {
       select.append(e);
@@ -105,12 +105,13 @@ $(async function() {
         if (debug) console.log('select change', {defaultColor, val, compo, color, supports, parent, compositions});
         const colors = Object.keys(compo.elements.enjoliveur.couleurs);
         if (debug) console.log('Couleurs', colors);
-        color.append('<option value="" selected>Select Couleur</option>');
+        color.append('<option value="" selected>Couleur...</option>');
         colors.forEach((e) => {
           let selected = '';
           if (defaultColor && defaultColor == e) { selected = 'selected'; }
           color.append(`<option value="${e}"${selected}>${e}</option>`);
         });
+        color.removeAttr('disabled');
       } else {
         color.empty();
         color.hide();
@@ -138,8 +139,20 @@ $(async function() {
       }
       $('.element .invalid-feedback', parent).hide();
     });
+    qty.on('focusin', function() {
+      $(this).data('oldValue', $(this).val());
+    });
     qty.on('change', function(ev) {
       if (debug) console.log('Qty change');
+
+      const minValue =  parseInt($(this).attr('min'));
+      const valueCurrent = parseInt($(this).val());
+      if (valueCurrent >= minValue) {
+        $(".btn-number[data-type='minus']", parent).removeAttr('disabled')
+      } else {
+        $(this).val($(this).data('oldValue'));
+      }
+      
       if (compo && compo.elements.support == 0) return;
       supports[1] = 0; supports[2] = 0; supports[3] = 0; supports[4] = 0;
       $('.qty').each((i, e) => {
@@ -150,12 +163,46 @@ $(async function() {
       });
       displaySupports();
     });
-    /* del.on('click', (ev) => {
-      $modalDelete.show();
-    }); */
+    qty.on('keydown', function (e) {
+      // Allow: backspace, delete, tab, escape, enter and .
+      if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+        // Allow: Ctrl+A
+        (e.keyCode == 65 && e.ctrlKey === true) || 
+        // Allow: home, end, left, right
+        (e.keyCode >= 35 && e.keyCode <= 39)) 
+      {
+        // let it happen, don't do anything
+        return;
+      }
+      // Ensure that it is a number and stop the keypress
+      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+        e.preventDefault();
+      }
+    });
     $('.selectColor', parent).on('change', () => {
       $('.color .invalid-feedback', parent).hide();
     })
+    btnNumber.on('click', function(e) {
+      e.preventDefault();
+      
+      const type      = $(this).attr('data-type');
+      const currentVal = parseInt(qty.val(), 10);
+      if (!isNaN(currentVal)) {
+        if (type === 'minus') {
+          if (currentVal > qty.attr('min')) {
+            qty.val(currentVal - 1).change();
+          } 
+          if (parseInt(qty.val()) == qty.attr('min')) {
+            $(this).attr('disabled', true);
+          }
+  
+        } else if (type == 'plus') {
+          qty.val(currentVal + 1).change();
+        }
+      } else {
+          qty.val(1);
+      }
+    });
     select.focus();
   }
   const $modalDelete = $('#modalDelete');
@@ -272,6 +319,7 @@ $(async function() {
     $('.poste .invalid-feedback').hide();
     const lines = $('.poste');
     const len = lines.length;
+    const commande = {};
     lines.each(function(i, e) {
       const poste = $('.selectPoste option:selected', this).val();
       if (poste.length <= 0) {
@@ -350,8 +398,14 @@ $(async function() {
       if ((i+1) >= len) {
         /* calculSupportsTotal();
         supports[1] = calculSupportsUni(); */
+        // Ajouter les supports à la commande
+        if (supports[1] > 0) commande['080251'] = supports[1];
+        if (supports[2] > 0) commande['080252'] = supports[2];
+        if (supports[3] > 0) commande['080253'] = supports[3];
+        if (supports[4] > 0) commande['080254'] = supports[4];
         const result = $('#result tbody');
         result.empty();
+        $('#result tfoot').empty();
         const cmdLines = Object.keys(commande);
         let index = 0;
         cmdLines.forEach((e, i) => {
@@ -369,30 +423,11 @@ $(async function() {
           </tr>`);
           index = i;
         });
-        index++;
-        if (supports[1] > 0) {
-          result.append(`<tr><th scope="row">${index+1}</th><td>${composants['080251'].label}</td><td>0 802 51</td><td>${supports[1]}</td></tr>`);
-          index++;
-        }
-        if (supports[2] > 0) {
-          result.append(`<tr><th scope="row">${index+1}</th><td>${composants['080252'].label}</td><td>0 802 52</td><td>${supports[2]}</td></tr>`);
-          index++;
-        }
-        if (supports[3] > 0) {
-          result.append(`<tr><th scope="row">${index+1}</th><td>${composants['080253'].label}</td><td>0 802 53</td><td>${supports[3]}</td></tr>`);
-          index++;
-        }
-        if (supports[4] > 0) {
-          result.append(`<tr><th scope="row">${index+1}</th><td>${composants['080254'].label}</td><td>0 802 54</td><td>${supports[4]}</td></tr>`);
-        }
         const chantier = $chantier.val();
         $('#result tfoot').append(`<tr><td>Ref. Chantier:</td><td class="chantier">${chantier}</td></tr>`);
         
-        const btnPrint = `<button id="printResult" class="btn btn-warning d-print-none" title="Imprimer votre bon de commande"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
-  <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
-  <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"/>
-</svg></button>`;
-        $('#result tfoot tr').append(`<td>${btnPrint}</td>`);
+        const btnPrint = `<button id="printResult" class="btn btn-warning d-print-none" title="Imprimer votre bon de commande"><i class="bi bi-printer"</i></button>`;
+        $('#result tfoot tr').append(`<td colspan="2">${btnPrint}</td>`);
         const today = new Date(Date.now());
         $('#today').text(today.toLocaleString());
         $('#result').show();
