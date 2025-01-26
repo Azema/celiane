@@ -220,7 +220,39 @@ $(async function() {
       displaySupports(true);
       $modalDelete.modal('hide');
    });
-  })
+  });
+  const $modalReset = $('#modalReset');
+  $modalReset.on('show.bs.modal', function(event) {
+    const button = event.relatedTarget;
+    const recipient = button.getAttribute('data-bs-whatever');
+    let title, body;
+    if (recipient === 'import') {
+      // Vérifier si le formulaire contient déjà des infos
+      if (supports[1] <= 0) {
+        // Pas besoin de confirmation
+        $modalReset.modal('hide');
+        importProject();
+        return false;
+      }
+      title = 'Confirmation de suppression';
+      body = "Etes-vous sûr de vouloir effacer les données contenues dans ce formulaire ?";
+    } else if (recipient === 'reset') {
+      title = 'Confirmation de réinitialisation';
+      body = "Etes-vous sûr de vouloir effacer toutes les données contenues dans ce formulaire ?";
+    }
+    $('.modal-title', $modalReset).text(title);
+    $('.modal-body p', $modalReset).text(body);
+  });
+  $modalReset.on('shown.bs.modal', function(event) {
+    const button = event.relatedTarget;
+    const recipient = button.getAttribute('data-bs-whatever');
+    if (debug) console.log('Modal Reset button', button);
+    $modalReset.on("click", ".btn-primary", () => {
+      if (recipient === 'reset') resetForm();
+      else if (recipient === 'import') importProject();
+      $modalReset.modal('hide');
+   });
+  });
 
   /*
    *  Supports
@@ -307,15 +339,26 @@ $(async function() {
     // editSupports.tooltip();
   })
 
+  /**
+   * Fonction permettant d'ajouter une nouvelle ligne dans le formulaire
+   * 
+   * @param {Event} ev Evenement qui a appelé cette fonction
+   */
   const add = (ev) => {
     $('.poste.new').removeClass('new');
+    // On ajoute une nouvelle ligne dans le formulaire
     $('.postes').append(template);
     calculSupportsTotal();
     initPoste();
     $('.export').show();
   }
 
-  const send = (ev) => {
+  /**
+   * Fonction permettant de générer le bon de commande
+   * 
+   * @param {Event} ev Evenemnt qui a appelé cette fonction
+   */
+  const orderForm = (ev) => {
     $('.poste .invalid-feedback').hide();
     const lines = $('.poste');
     const len = lines.length;
@@ -451,7 +494,7 @@ $(async function() {
   /**
    * Permet de remettre le formulaire à zéro
    */
-  const recycle = () => {
+  const resetForm = () => {
     // Nettoyer les champs Chantier et Color
     $chantier.val('');
     $defaultColor.val($("option:first", $defaultColor).val());
@@ -480,9 +523,15 @@ $(async function() {
   }
 
   /**
-   * Permet d'exporter une liste de postes
+   * Permet d'exporter un projet Celiane
    */
   const exportList = () => {
+    /**
+     * Fonction permettant d'envoyer le projet Celiane dans un fichier à télécharger
+     * 
+     * @param {Object} obj Le projet Celiane à exporter
+     * @param {String} filename Le nom du fichier à envoyer à l'utilisateur
+     */
     const JSONToFile = (obj, filename) => {
       const blob = new Blob([JSON.stringify(obj, null, 2)], {
         type: 'application/json',
@@ -542,47 +591,69 @@ $(async function() {
   }
   const inputFile = $('#projectFile');
   const btnImportProject = $('.importProject');
+  /**
+   * Fonction appelée lors de la sélection d'un fichier à importer
+   */
   inputFile.on('change', function(e) {
     /** @type HTMLInputElement */
     const input = this;
-    
     const curFiles = input.files;
+    // On désactive le bouton d'import
+    btnImportProject.prop('disabled', true);
     if (curFiles.length > 0) {
       if (curFiles[0].type !== 'application/json') {
         // Ajouter un message d'erreur
         $('.invalid-feedback.file').show();
       } else {
         $('.invalid-feedback.file').hide();
+        // On vérifie si le contenu de l'élément a été modifié
+        if ($('.invalid-feedback.file').get(0).dataset.originalContent) {
+          $('.invalid-feedback.file').text($('.invalid-feedback.file').get(0).dataset.originalContent);
+          delete $('.invalid-feedback.file').get(0).dataset.originalContent;
+        }
+        // On active le bouton d'import
         btnImportProject.removeAttr('disabled');
       }
-    } else {
-      btnImportProject.prop('disabled', true);
     }
   });
-  btnImportProject.on('click', (e) => {
+  /**
+   * Fonction d'import de projet Celiane dans le formulaire
+   */
+  const importProject = () => {
     /** @type HTMLInputElement */
     const input = document.getElementById('projectFile');
     const curFiles = input.files;
+    // On vérifie la présence et le type de fichier uploadé
     if (curFiles.length > 0 && curFiles[0].type === 'application/json') {
       try {
+        // On charge le fichier dans un lecteur
         const fr = new FileReader();
         fr.onload = (e) => {
+          // On récupère son contenu
           const project = JSON.parse(e.target.result);
-          console.log('Project uploaded', project);
-          // TODO Nettoyer le formulaire
+          if (debug) console.log('Project uploaded', project);
+          // On vérifie que le contenu correspond au schéma d'un projet Celiane
           if (!project.hasOwnProperty('chantier')) {
-            // Mauvais fichier
-            if (debug) console.error('Le fichier n\'est pas correct');
+            /** @type HTMLElement */
+            const msgErrImport = $('.invalid-feedback.file').get(0);
+            msgErrImport.dataset.originalContent = msgErrImport.innerHTML;
+            // On remonte l'erreur à l'utilisateur et on s'arrête là
+            msgErrImport.innerText = 'Le fichier fournit ne correspond pas à un fichier de projet Céliane, veuillez vérifier';
+            $('.invalid-feedback.file').show();
+            console.warn("Le fichier d'import ne correspond pas au schéma de projet Céliane");
             return false;
           }
+          // On néttoie le formulaire
+          resetForm();
           $('#chantier').val(project.chantier);
           $('option', $defaultColor).removeAttr('selected');
           $(`option[value="${project.defaultColor}"]`, $defaultColor).prop('selected', true);
           const posteKeys = Object.keys(project.postes);
+          // On charge les postes sur le formulaire
           for (let p = 0, _len = posteKeys.length; p < _len; p++) {
             const id = posteKeys[p];
             const poste = project.postes[id];
-            if (debug) console.log('Poste[%d]', id, poste);
+            if (debug) console.log('Poste[%s]', id, poste);
             const compo = findCompoFromId(id);
             const parent = $('.poste.new');
             const colors = Object.keys(compo.elements.enjoliveur.couleurs);
@@ -590,36 +661,45 @@ $(async function() {
             parent.get(0).dataset.support = compo.elements.support;
             $(`.poste.new .selectPoste option[value="${id}"]`).prop("selected", true);
             $(`.poste.new .qty`).val(poste.qty);
-            if (debug) console.log('Couleurs', colors);
+            // if (debug) console.log('Couleurs', colors);
             $('.poste.new .selectColor').empty();
             colors.forEach((e) => {
               let selected = '';
               if (poste.color == e) { selected = 'selected'; }
               $('.poste.new .selectColor').append(`<option value="${e}"${selected}>${e}</option>`);
             });
+            $('.poste.new .selectColor').removeAttr('disabled');
             $('.poste.new').removeClass('new');
-            $('.postes').append(template);
-            initPoste();
+            // On ajoute pas de nouvelle ligne vide à la fin du chargement
+            if (p < _len - 1) {
+              $('.postes').append(template);
+              initPoste();
+            }
           }
+          // On charges les supports
           const supportKeys = Object.keys(project.supports);
           for (let s = 0, _len = supportKeys.length; s < _len; s++) {
             const key = supportKeys[s];
             supports[key] = project.supports[key];
             // if (debug) console.log('Support[%s]: ', key, {project: project.supports[key], actual: supports[key]});
           }
-          // if (debug) console.log('Supports A: ', supports);
+          // Et on les affiche
+          // if (debug) console.log('Supports: ', supports);
           displaySupports(true);
+          // On ferme la zone d'import et on réinitialise le champ de sélection de fichier
+          $('#collapseImport').collapse('hide');
+          inputFile.val('');
         };
         fr.readAsText(curFiles.item(0));
       } catch (err) {
         console.error(err);
       }
     }
-  });
+  };
 
   $('.add').on('click', add);
-  $('.send').on('click', send);
-  $('#recycle').on('click', recycle);
+  $('.send').on('click', orderForm);
+  $('#recycle').on('click', resetForm);
   $('.export').on('click', exportList);
 
   $('[data-bs-toggle="tooltip"]').tooltip();

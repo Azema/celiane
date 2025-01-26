@@ -50,7 +50,7 @@
     <article class="description">
       <p>Pour commander tout le matériel nécessaire pour l'installation d'appareillage Céliane, il vous faut plusieurs composants pour un élément. Cette page vous permet de réaliser un bon de commande à imprimer à partir des éléments dont vous avez besoin pour votre chantier.</p>
       <p>Choisissez les éléments de votre chantier et indiquez la quantité. Par défaut, les supports sont comptés à l'unité, mais vous pouvez indiquer le nombre de supports double, triple ou quadruple dont vous avez besoin. Ils seront automatiquement déduits des supports unitaires.</p>
-      <p>Vous pouvez commencer un projet Céliane et l'exporter dans un fichier. Puis le restaurer, en l'important, pour continuer votre projet un peu plus tard.</p>
+      <p>Vous pouvez commencer un projet Céliane et l'exporter dans un fichier. Puis le restaurer, en l'important, pour continuer votre projet un peu plus tard ou bien l'envoyer à un collègue.</p>
     </article>
 
     <section id="import" class="mb-3 border">
@@ -67,7 +67,7 @@
             <div class="invalid-feedback file">Vous ne pouvez charger que des fichiers de type JSON</div>
           </div>
           <div class="col-md-2 mt-4">
-            <button class="btn btn-primary importProject" disabled>Importer</button>
+            <button class="btn btn-primary importProject" disabled data-bs-toggle="modal" data-bs-target="#modalReset" data-bs-whatever="import"><i class="bi bi-upload me-1"></i>Importer</button>
           </div>
           
         </div>
@@ -98,7 +98,7 @@
         <div class="postes">
           <h3>
             Vos éléments
-            <button class="btn" id="recycle" title="Réinitialiser le formulaire">
+            <button class="btn" id="recycle" title="Réinitialiser le formulaire" data-bs-toggle="modal" data-bs-target="#modalReset" data-bs-whatever="reset">
               <i class="bi bi-recycle me-1"></i>Reset formulaire
             </button>
           </h3>
@@ -298,6 +298,23 @@
         </div>
         <div class="modal-body">
           <p>Etes-vous sûr de vouloir supprimer cette ligne ?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+          <button type="button" class="btn btn-primary">Oui</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" tabindex="-1" id="modalReset" aria-labelledby="modalResetLabel" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalResetLabel">Confirmation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Etes-vous sûr de vouloir éffacer les données de ce formulaire ?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
