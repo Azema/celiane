@@ -699,7 +699,6 @@ $(async function() {
 
   $('.add').on('click', add);
   $('.send').on('click', orderForm);
-  $('#recycle').on('click', resetForm);
   $('.export').on('click', exportList);
 
   $('[data-bs-toggle="tooltip"]').tooltip();
