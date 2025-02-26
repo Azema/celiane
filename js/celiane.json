@@ -145,6 +145,31 @@
       "support": 1
     }
   }, {
+    "id": "C00149",
+    "name": "Double Va et Vient dont un témoin",
+    "type": "commande",
+    "categorie": "Interrupteurs",
+    "elements": {
+      "mecanisme": {
+        "ref": "CM0001",
+        "qty": 2
+      },
+      "enjoliveur": {
+        "couleurs": {
+          "blanc": ["CB2007", "CB2001"],
+          "noir": ["CN2007", "CN2001"],
+          "titanium": ["CT2007", "CT2001"],
+          "antimicrobien": ["CT3027", "CT3001"]
+        },
+        "qty": 1
+      },
+      "voyant": {
+        "ref": "CM0222",
+        "qty": 1
+      },
+      "support": 1
+    }
+  }, {
     "id": "C00011",
     "name": "Va et Vient + Poussoir",
     "type": "commande",
